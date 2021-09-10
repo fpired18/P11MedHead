@@ -3,6 +3,8 @@ package com.openclassrooms.MedHead_Platform.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,7 @@ public class MainController {
 	@GetMapping("/hospital")
 	public ResponseEntity<List<Hospital>> getAllHospitals() {
 		try {
-			List<Hospital> list = hospitalRepository.findAll(); 
+			List<Hospital> list = hospitalRepository.findAll();
 			if (list.isEmpty() || list.size() == 0) {
 				return new ResponseEntity<List<Hospital>>(HttpStatus.NO_CONTENT);
 			}
@@ -48,7 +50,7 @@ public class MainController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 	}
 
 	@GetMapping("/hospital/{id}")

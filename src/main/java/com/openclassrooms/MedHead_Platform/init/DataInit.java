@@ -49,9 +49,19 @@ public class DataInit implements ApplicationRunner {
 			h3.setNumberOfPatients(10);
 			h3.setPositionGeographique(20);
 			
+			Hospital h4 = new Hospital();
+			
+			h4.setSpecialtyGroup("Groupe pathologie");
+			h4.setSpecialty("Pédiatrie");
+			h4.setHospitalCenter("Valence");
+			h4.setNumberOfBeds(80);
+			h4.setNumberOfPatients(40);
+			h4.setPositionGeographique(15);
+			
 			hospitalDAO.save(h1);
 			hospitalDAO.save(h2);
 			hospitalDAO.save(h3);
+			hospitalDAO.save(h4);
 		}
 		
 	}
