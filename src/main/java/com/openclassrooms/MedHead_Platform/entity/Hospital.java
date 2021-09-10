@@ -1,7 +1,10 @@
 package com.openclassrooms.MedHead_Platform.entity;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,6 +13,8 @@ import javax.persistence.Table;
 public class Hospital {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
 	@Column(name = "Id", nullable = false)
 	public Long id;
 
