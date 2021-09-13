@@ -16,7 +16,9 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 	
 	public List<Hospital> findByNumberOfBeds(Integer number);
 	public List<Hospital> findByNumberOfPatients(Integer number);
-	public List<Hospital> findByPositionGeographique(Integer number);
+	public List<Hospital> findByGeographicalPosition(Integer number);
+	
+	public List<Hospital> findAll();
 	
 
 }

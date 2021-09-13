@@ -29,8 +29,8 @@ public class Hospital {
 	public int numberOfBeds;
 	@Column(name = "numberOfPatients", nullable = false)
 	public int numberOfPatients;
-	@Column(name = "positionGeographique", nullable = false)
-	public int positionGeographique;
+	@Column(name = "geographicalPosition", nullable = false)
+	public int geographicalPosition;
 
 	public Long getId() {
 		return id;
@@ -80,12 +80,12 @@ public class Hospital {
 		this.numberOfPatients = numberOfPatients;
 	}
 
-	public int getPositionGeographique() {
-		return positionGeographique;
+	public int getGeographicalPosition() {
+		return geographicalPosition;
 	}
 
-	public void setPositionGeographique(int positionGeographique) {
-		this.positionGeographique = positionGeographique;
+	public void setGeographicalPosition(int geographicalPosition) {
+		this.geographicalPosition = geographicalPosition;
 	}
 
 }

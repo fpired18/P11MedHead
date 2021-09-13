@@ -29,7 +29,7 @@ public class DataInit implements ApplicationRunner {
 			h1.setHospitalCenter("Brest");
 			h1.setNumberOfBeds(10);
 			h1.setNumberOfPatients(5);
-			h1.setPositionGeographique(5);
+			h1.setGeographicalPosition(5);
 			
 			Hospital h2 = new Hospital();
 			
@@ -38,7 +38,7 @@ public class DataInit implements ApplicationRunner {
 			h2.setHospitalCenter("Bordeaux");
 			h2.setNumberOfBeds(150);
 			h2.setNumberOfPatients(75);
-			h2.setPositionGeographique(15);
+			h2.setGeographicalPosition(15);
 			
 			Hospital h3 = new Hospital();
 			
@@ -47,7 +47,7 @@ public class DataInit implements ApplicationRunner {
 			h3.setHospitalCenter("Toulouse");
 			h3.setNumberOfBeds(70);
 			h3.setNumberOfPatients(10);
-			h3.setPositionGeographique(20);
+			h3.setGeographicalPosition(20);
 			
 			Hospital h4 = new Hospital();
 			
@@ -56,12 +56,22 @@ public class DataInit implements ApplicationRunner {
 			h4.setHospitalCenter("Valence");
 			h4.setNumberOfBeds(80);
 			h4.setNumberOfPatients(40);
-			h4.setPositionGeographique(15);
+			h4.setGeographicalPosition(15);
+			
+			Hospital h5 = new Hospital();
+			
+			h5.setSpecialtyGroup("Groupe de psychiatrie");
+			h5.setSpecialty("Psychiatrie légale");
+			h5.setHospitalCenter("Lille");
+			h5.setNumberOfBeds(30);
+			h5.setNumberOfPatients(7);
+			h5.setGeographicalPosition(40);
 			
 			hospitalDAO.save(h1);
 			hospitalDAO.save(h2);
 			hospitalDAO.save(h3);
 			hospitalDAO.save(h4);
+			hospitalDAO.save(h5);
 		}
 		
 	}
