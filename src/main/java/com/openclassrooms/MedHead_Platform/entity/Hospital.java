@@ -18,10 +18,10 @@ public class Hospital {
 	@Column(name = "Id", nullable = false)
 	public Long id;
 
-	@Column(name = "specialtyGroup", nullable = false)
-	public String specialtyGroup;
-	@Column(name = "specialty", nullable = false)
-	public String specialty;
+	@Column(name = "specialityGroup", nullable = false)
+	public String specialityGroup;
+	@Column(name = "speciality", nullable = false)
+	public String speciality;
 	@Column(name = "hospitalCenter", nullable = false)
 	public String hospitalCenter;
 
@@ -40,20 +40,20 @@ public class Hospital {
 		this.id = id;
 	}
 
-	public String getSpecialtyGroup() {
-		return specialtyGroup;
+	public String getSpecialityGroup() {
+		return specialityGroup;
 	}
 
-	public void setSpecialtyGroup(String specialtyGroup) {
-		this.specialtyGroup = specialtyGroup;
+	public void setSpecialityGroup(String specialityGroup) {
+		this.specialityGroup = specialityGroup;
 	}
 
-	public String getSpecialty() {
-		return specialty;
+	public String getSpeciality() {
+		return speciality;
 	}
 
-	public void setSpecialty(String specialty) {
-		this.specialty = specialty;
+	public void setSpeciality(String speciality) {
+		this.speciality = speciality;
 	}
 
 	public String getHospitalCenter() {

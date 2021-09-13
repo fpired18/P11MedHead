@@ -10,8 +10,8 @@ import com.openclassrooms.MedHead_Platform.entity.Hospital;
 @Repository
 public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 	
-	public List<Hospital> findBySpecialtyGroup(String name);
-	public List<Hospital> findBySpecialty(String name);
+	public List<Hospital> findBySpecialityGroup(String name);
+	public List<Hospital> findBySpeciality(String name);
 	public List<Hospital> findByHospitalCenter(String name);
 	
 	public List<Hospital> findByNumberOfBeds(Integer number);

@@ -15,10 +15,10 @@ public class HospitalManager {
 	HospitalDAO hospitalDAO;
 	
 	public List<Hospital> findBySpecialty(String specialty) {
-		return hospitalDAO.findBySpecialty(specialty); 
+		return hospitalDAO.findBySpeciality(specialty); 
 	}
 	
 	public List<Hospital> findBySpecialtyGroup(String specialtyGroup) {
-		return hospitalDAO.findBySpecialtyGroup(specialtyGroup);
+		return hospitalDAO.findBySpecialityGroup(specialtyGroup);
 	}
 }

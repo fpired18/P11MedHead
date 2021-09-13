@@ -24,8 +24,8 @@ public class DataInit implements ApplicationRunner {
 		if(count == 0){
 			Hospital h1 = new Hospital();
 			
-			h1.setSpecialtyGroup("Groupe dentaire");
-			h1.setSpecialty("Orthodontie");
+			h1.setSpecialityGroup("Groupe dentaire");
+			h1.setSpeciality("Orthodontie");
 			h1.setHospitalCenter("Brest");
 			h1.setNumberOfBeds(10);
 			h1.setNumberOfPatients(5);
@@ -33,8 +33,8 @@ public class DataInit implements ApplicationRunner {
 			
 			Hospital h2 = new Hospital();
 			
-			h2.setSpecialtyGroup("Anesthésie");
-			h2.setSpecialty("Anesthésie");
+			h2.setSpecialityGroup("Anesthésie");
+			h2.setSpeciality("Anesthésie");
 			h2.setHospitalCenter("Bordeaux");
 			h2.setNumberOfBeds(150);
 			h2.setNumberOfPatients(75);
@@ -42,8 +42,8 @@ public class DataInit implements ApplicationRunner {
 			
 			Hospital h3 = new Hospital();
 			
-			h3.setSpecialtyGroup("Groupe de médecine générale");
-			h3.setSpecialty("Allergie");
+			h3.setSpecialityGroup("Groupe de médecine générale");
+			h3.setSpeciality("Allergie");
 			h3.setHospitalCenter("Toulouse");
 			h3.setNumberOfBeds(70);
 			h3.setNumberOfPatients(10);
@@ -51,17 +51,17 @@ public class DataInit implements ApplicationRunner {
 			
 			Hospital h4 = new Hospital();
 			
-			h4.setSpecialtyGroup("Groupe pathologie");
-			h4.setSpecialty("Pédiatrie");
+			h4.setSpecialityGroup("Groupe pathologie");
+			h4.setSpeciality("Pédiatrie");
 			h4.setHospitalCenter("Valence");
 			h4.setNumberOfBeds(80);
 			h4.setNumberOfPatients(40);
-			h4.setGeographicalPosition(15);
+			h4.setGeographicalPosition(25);
 			
 			Hospital h5 = new Hospital();
 			
-			h5.setSpecialtyGroup("Groupe de psychiatrie");
-			h5.setSpecialty("Psychiatrie légale");
+			h5.setSpecialityGroup("Groupe de psychiatrie");
+			h5.setSpeciality("Psychiatrie légale");
 			h5.setHospitalCenter("Lille");
 			h5.setNumberOfBeds(30);
 			h5.setNumberOfPatients(7);

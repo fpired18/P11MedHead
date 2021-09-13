@@ -3,12 +3,9 @@ package com.openclassrooms.MedHead_Platform.controller;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.MedHead_Platform.dao.HospitalDAO;
 import com.openclassrooms.MedHead_Platform.entity.Hospital;
-import com.openclassrooms.MedHead_Platform.repository.HospitalRepository;
 
 @RestController
 public class MainController {
@@ -35,7 +31,7 @@ public class MainController {
 
 		StringBuilder sb = new StringBuilder();
 
-		all.forEach(p -> sb.append(p.getSpecialtyGroup() + "<br"));
+		all.forEach(p -> sb.append(p.getSpecialityGroup() + "<br"));
 
 		return sb.toString();
 	}
@@ -64,16 +60,16 @@ public class MainController {
 
 	}
 
-	@GetMapping("/hospital/specialty/{specialty}")
-	public List<Hospital> getSingleSpecialty(@PathVariable String specialty) {
-		List<Hospital> patient = hospitalDAO.findBySpecialty(specialty);
+	@GetMapping("/hospital/speciality/{speciality}")
+	public List<Hospital> getSingleSpeciality(@PathVariable String speciality) {
+		List<Hospital> patient = hospitalDAO.findBySpeciality(speciality);
 		return patient;
 
 	}
 	
-	@GetMapping("/hospital/specialtyGroup/{specialtyGroup}")
-	public List<Hospital> getSingleSpecialtyGroup(@PathVariable String specialtyGroup) {
-		List<Hospital> patient = hospitalDAO.findBySpecialtyGroup(specialtyGroup);
+	@GetMapping("/hospital/specialityGroup/{specialityGroup}")
+	public List<Hospital> getSingleSpecialityGroup(@PathVariable String specialityGroup) {
+		List<Hospital> patient = hospitalDAO.findBySpecialityGroup(specialityGroup);
 		return patient;
 
 	}
