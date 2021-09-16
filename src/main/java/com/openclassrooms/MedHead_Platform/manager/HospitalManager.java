@@ -14,11 +14,11 @@ public class HospitalManager {
 	@Autowired
 	HospitalDAO hospitalDAO;
 	
-	public List<Hospital> findBySpecialty(String specialty) {
-		return hospitalDAO.findBySpeciality(specialty); 
+	public List<Hospital> findBySpeciality(String speciality) {
+		return hospitalDAO.findBySpeciality(speciality); 
 	}
 	
-	public List<Hospital> findBySpecialtyGroup(String specialtyGroup) {
-		return hospitalDAO.findBySpecialityGroup(specialtyGroup);
+	public List<Hospital> findBySpecialityGroup(String specialityGroup) {
+		return hospitalDAO.findBySpecialityGroup(specialityGroup);
 	}
 }

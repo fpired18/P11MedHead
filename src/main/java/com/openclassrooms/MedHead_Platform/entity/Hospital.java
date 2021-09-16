@@ -29,9 +29,16 @@ public class Hospital {
 	public int numberOfBeds;
 	@Column(name = "numberOfPatients", nullable = false)
 	public int numberOfPatients;
-	@Column(name = "geographicalPosition", nullable = false)
-	public int geographicalPosition;
-
+	
+	
+	@Column(name = "numberOfBedsAvailable", nullable = false)
+	public int numberOfBedsAvailable;
+	
+	@Column(name = "geographicalPositionLong", nullable = false)
+	public int geographicalPositionLong;
+	@Column(name = "geographicalPositionLat", nullable = false)
+	public int geographicalPositionLat;
+	
 	public Long getId() {
 		return id;
 	}
@@ -79,13 +86,33 @@ public class Hospital {
 	public void setNumberOfPatients(int numberOfPatients) {
 		this.numberOfPatients = numberOfPatients;
 	}
-
-	public int getGeographicalPosition() {
-		return geographicalPosition;
+	
+	public int getNumberOfBedsAvailable() {
+		return numberOfBeds - numberOfPatients;
 	}
 
-	public void setGeographicalPosition(int geographicalPosition) {
-		this.geographicalPosition = geographicalPosition;
+	public void setNumberOfBedsAvailable(int numberOfBedsAvailable) {
+		this.numberOfBedsAvailable = numberOfBedsAvailable;
 	}
+
+	public int getGeographicalPositionLat() {
+		return geographicalPositionLat;
+	}
+
+	public void setGeographicalPositionLat(int geographicalPositionLat) {
+		this.geographicalPositionLat = geographicalPositionLat;
+	}
+
+	
+
+	public int getGeographicalPositionLong() {
+		return geographicalPositionLong;
+	}
+
+	public void setGeographicalPositionLong(int geographicalPositionLong) {
+		this.geographicalPositionLong = geographicalPositionLong;
+	}
+	
+	
 
 }

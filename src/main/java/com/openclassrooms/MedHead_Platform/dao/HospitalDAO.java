@@ -16,9 +16,24 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 	
 	public List<Hospital> findByNumberOfBeds(Integer number);
 	public List<Hospital> findByNumberOfPatients(Integer number);
-	public List<Hospital> findByGeographicalPosition(Integer number);
-	
+	public List<Hospital> findByGeographicalPositionLong(Integer number);
+	public List<Hospital> findByGeographicalPositionLat(Integer number);
+	public List<Hospital> findByNumberOfBedsAvailable(Integer number);	
 	public List<Hospital> findAll();
+	
+	public default int distanceGPS (int latPatientDegre, int longPatientDegre, int latHospitalDegre, int longHospitalDegre) {
+		
+		int radius = 6378000;
+		
+		int latPatient = (int) Math.toRadians(latPatientDegre);
+		int longPatient = (int) Math.toRadians(longPatientDegre);
+		
+		int latHospital = (int) Math.toRadians(latHospitalDegre);
+		int longHospital = (int) Math.toRadians(longHospitalDegre);
+		
+		int d = (int) (radius * (Math.PI/2 - Math.asin(Math.sin(latHospital) * Math.sin(latPatient) + Math.cos(longHospital-longPatient) * Math.cos(latHospital)* Math.cos(latPatient))));
+		return d;
+	}
 	
 
 }

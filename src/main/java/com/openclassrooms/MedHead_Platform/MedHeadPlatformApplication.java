@@ -9,5 +9,7 @@ public class MedHeadPlatformApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MedHeadPlatformApplication.class, args);
 	}
+	
 
+	
 }
