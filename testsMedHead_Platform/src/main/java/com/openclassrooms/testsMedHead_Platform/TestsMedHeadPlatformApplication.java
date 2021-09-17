@@ -51,7 +51,6 @@ public class TestsMedHeadPlatformApplication {
 					Object obj = new JSONParser().parse(jsonString);
 					System.out.println("\nVoila ce que donne obj.toString()): " + obj.toString());
 					System.out.println("\nVoila ce que donne obj.toString().indexOf(\"speciality\"): " + obj.toString().indexOf("speciality"));
-					System.out.println("\nVoila ce que donne obj.toString().intern: " + obj.toString().lastIndexOf(0, 0));
 					System.out.println("\nVoila ce que donne obj.toString().indexOf(\"specialityGroup\"): " + obj.toString().indexOf("specialityGroup"));
 			} else {
 				System.out.println(response);
