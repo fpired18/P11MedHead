@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,7 +41,7 @@ public class MainController {
 
 		StringBuilder sb = new StringBuilder();
 
-		all.forEach(p -> sb.append(p.getSpecialityGroup() + "<br"));
+		all.forEach(p -> sb.append(p.getSpecialityGroup() + "<br/>"));
 
 		return sb.toString();
 	}
@@ -113,7 +114,7 @@ public class MainController {
 	@GetMapping("/hospital/geographicalPosition/{geographicalPositionLong}")
 	public List<Hospital> getSingleGeographicalPositionLong(@PathVariable int geographicalPositionLong) {
 		List<Hospital> patient = hospitalDAO.findByGeographicalPositionLong(geographicalPositionLong);
-		int tripDistance = hospitalDAO.distanceGPS(5, 8, 4, 2);
+		int tripDistance = HospitalDAO.distanceGPS(5, 8, 4, 2);
 		System.out.println("Voici la distance "+ tripDistance);
 		return patient;
 
@@ -131,14 +132,27 @@ public class MainController {
 		List<Hospital> bedsDispo = hospitalDAO.findAll();
 		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
 		for(Hospital item: bedsDispo) {
-			if (item.numberOfBedsAvailable > 10) {
+			if (item.numberOfBedsAvailable== 10) {
 			hospitalWithBeds.add(item);
 			}
 		}
 		return hospitalWithBeds;
 	}
 	
-	//@PostMapping
+	
+	
+	/*@GetMapping("/hospital/numberOfBedsAvailable/{numberOfBedsAvailable}")
+	public List<Hospital> getAllHospitalWithDisponibility2() {
+		List<Hospital> bedsDispo = hospitalDAO.findAll();
+		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
+		return hospitalWithBeds;
+	}
+	
+	@PutMapping("/hospital/numberOfPatients/{numberOfPatients}")
+	public List<Hospital> updateHospital(@PathVariable Long id, @RequestBody Hospital hospital) {
+		hospital.setId(id);
+		return hospitalDAO.updateHospital(hospital);
+	}*/
 	
 
 }

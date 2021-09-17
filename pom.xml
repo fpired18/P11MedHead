@@ -8,12 +8,14 @@
 		<version>2.5.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>com.openclassrooms</groupId>
 	<artifactId>MedHead_Platform</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MedHead_Platform</name>
 	<description>Spring Boot + JPA + H2</description>
 	<properties>
+		<start-class>com.bnguimgo.restclient.com.bnguimgo.springbootrestserver.SpringbootRestApplication</start-class>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
