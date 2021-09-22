@@ -29,16 +29,31 @@ public class Hospital {
 	public int numberOfBeds;
 	@Column(name = "numberOfPatients", nullable = false)
 	public int numberOfPatients;
-	
-	
+
 	@Column(name = "numberOfBedsAvailable", nullable = false)
 	public int numberOfBedsAvailable;
-	
+
 	@Column(name = "geographicalPositionLong", nullable = false)
-	public int geographicalPositionLong;
+	public double geographicalPositionLong;
 	@Column(name = "geographicalPositionLat", nullable = false)
-	public int geographicalPositionLat;
-	
+	public double geographicalPositionLat;
+
+	public Hospital() {
+	}
+
+	public Hospital(String specialityGroup, String speciality, String hospitalCenter, int numberOfBeds,
+			int numberOfPatients, double geographicalPositionLong, double geographicalPositionLat) {
+		super();
+		this.specialityGroup = specialityGroup;
+		this.speciality = speciality;
+		this.hospitalCenter = hospitalCenter;
+		this.numberOfBeds = numberOfBeds;
+		this.numberOfPatients = numberOfPatients;
+		this.numberOfBedsAvailable = numberOfBeds - numberOfPatients;
+		this.geographicalPositionLong = geographicalPositionLong;
+		this.geographicalPositionLat = geographicalPositionLat;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -86,7 +101,7 @@ public class Hospital {
 	public void setNumberOfPatients(int numberOfPatients) {
 		this.numberOfPatients = numberOfPatients;
 	}
-	
+
 	public int getNumberOfBedsAvailable() {
 		return numberOfBeds - numberOfPatients;
 	}
@@ -95,24 +110,20 @@ public class Hospital {
 		this.numberOfBedsAvailable = numberOfBedsAvailable;
 	}
 
-	public int getGeographicalPositionLat() {
+	public double getGeographicalPositionLat() {
 		return geographicalPositionLat;
 	}
 
-	public void setGeographicalPositionLat(int geographicalPositionLat) {
+	public void setGeographicalPositionLat(double geographicalPositionLat) {
 		this.geographicalPositionLat = geographicalPositionLat;
 	}
 
-	
-
-	public int getGeographicalPositionLong() {
+	public double getGeographicalPositionLong() {
 		return geographicalPositionLong;
 	}
 
-	public void setGeographicalPositionLong(int geographicalPositionLong) {
+	public void setGeographicalPositionLong(double geographicalPositionLong) {
 		this.geographicalPositionLong = geographicalPositionLong;
 	}
-	
-	
 
 }

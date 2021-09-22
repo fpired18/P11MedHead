@@ -1,10 +1,11 @@
 package com.openclassrooms.testsMedHead_Platform;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublisher;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -37,14 +38,10 @@ class TestsMedHeadPlatformApplicationTests {
 				List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
 				});
 
-				int numberRecord = 0;
-				numberRecord = posts.lastIndexOf(jsonString);
-				System.out.println("Voila ce que donne numberRecord: " + numberRecord);
-
 				posts.forEach(System.out::println);
 
 				System.out.println("\n------------------------------------");
-				System.out.println("            Tout est OK");
+				System.out.println("            Tout est OK dans testListJson");
 				System.out.println("------------------------------------");
 				System.out.println("Response.statusCode = " + response.statusCode());
 				System.out.println("Voila ce que donne un jsonString: " + jsonString);
@@ -82,7 +79,7 @@ class TestsMedHeadPlatformApplicationTests {
 				if (response.statusCode() == 200) {
 					String jsonString = response.body();
 					System.out.println("\n------------------------------------");
-					System.out.println("            Tout est OK");
+					System.out.println("            Tout est OK ");
 					System.out.println("------------------------------------");
 					System.out.println("Response.statusCode = " + response.statusCode());
 					System.out.println("Voila le jsonString numéro " + jsonNumber + ": " + jsonString);
@@ -144,7 +141,7 @@ class TestsMedHeadPlatformApplicationTests {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void testCreate() {
 		HospitalDTO hospitalDTO = new HospitalDTO();
 
@@ -171,9 +168,9 @@ class TestsMedHeadPlatformApplicationTests {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	void testNumberPatient() {
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(String.format("http://localhost:9010/hospital/numberOfPatients")))
@@ -187,11 +184,59 @@ class TestsMedHeadPlatformApplicationTests {
 			System.out.println("\n***********************************");
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	@Test
-	public void testHomeController() {
-		//MainController mainController = new MainController;
+	public void testGetAllHospitalWithDisponibility() throws IOException, InterruptedException {
+		
+		var values = new HashMap<String, String>() {/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+		{
+			put("latPatient", "3.2");
+			put("lonPatient", "5.8");
+			
+		}};
+		var objectMapper = new ObjectMapper();
+		String requestBody2 = objectMapper.writeValueAsString(values);
+		HttpClient client2 = HttpClient.newHttpClient();
+		HttpRequest request2 = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/hospital/numberOfBedsAvailable")))
+				.POST(HttpRequest.BodyPublishers.ofString(requestBody2)).build();
+		HttpResponse<String> response2 = client2.send(request2,HttpResponse.BodyHandlers.ofString());
+		System.out.println("    Voici la réponse2 ! :" + response2.body());
+		
+		String requestBody = "{\"latPatient\": \"3.2\",\"lonPatient\": \"5.8\"}";
+		
+		/*String requestBody= "{\n"
+				+ "        \"latPatient\": \"3.2\",\n"
+				+ "        \"lonPatient\": \"5.8\"\n"
+				+ "        \n"
+				+ "}";*/
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/hospital/numberOfBedsAvailable")))
+				.POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+		HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+		System.out.println("    Voici la réponse ! :" + response.body());
+		
+		/*        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://httpbin.org/post"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+		*
+		*/
 	}
+	
+	
+	
 
 }
