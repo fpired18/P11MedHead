@@ -8,8 +8,8 @@ public class Post {
 	private int numberOfBeds;
 	private int numberOfPatients;
 	private int numberOfBedsAvailable;
-	private int geographicalPositionLong;
-	private int geographicalPositionLat;
+	private double geographicalPositionLon;
+	private double geographicalPositionLat;
 
 	public int getId() {
 		return id;
@@ -67,27 +67,29 @@ public class Post {
 		this.numberOfBedsAvailable = numberOfBedsAvailable;
 	}
 
-	public int getGeographicalPositionLong() {
-		return geographicalPositionLong;
+	public double getGeographicalPositionLon() {
+		return geographicalPositionLon;
 	}
 
-	public void setGeographicalPositionLong(int geographicalPositionLong) {
-		this.geographicalPositionLong = geographicalPositionLong;
+	public void setGeographicalPositionLon(double geographicalPositionLon) {
+		this.geographicalPositionLon = geographicalPositionLon;
 	}
 
-	public int getGeographicalPositionLat() {
+	public double getGeographicalPositionLat() {
 		return geographicalPositionLat;
 	}
 
-	public void setGeographicalPositionLat(int geographicalPositionLat) {
+	public void setGeographicalPositionLat(double geographicalPositionLat) {
 		this.geographicalPositionLat = geographicalPositionLat;
 	}
 
 	@Override
 	public String toString() {
 		return "\nPost [id=" + id + ", \nspecialityGroup = " + specialityGroup + ", \nspeciality = " + speciality 
-				+ ", \nhospitalCenter = " + hospitalCenter + ", \nnumberOfBeds = " + numberOfBeds + ", \nnumberOfPatients = " + numberOfPatients 
-				+ ", \nnumberOfBedsAvailable = " + numberOfBedsAvailable + ", \ngeographicalPositionLong = " + geographicalPositionLong 
+				+ ", \nhospitalCenter = " + hospitalCenter + ", \nnumberOfBeds = " + numberOfBeds 
+				+ ", \nnumberOfPatients = " + numberOfPatients 
+				+ ", \nnumberOfBedsAvailable = " + numberOfBedsAvailable 
+				+ ", \ngeographicalPositionLon = " + geographicalPositionLon 
 				+ ", \ngeographicalPositionLat = " + geographicalPositionLat +"]";
 	}
 

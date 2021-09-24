@@ -15,12 +15,32 @@ public class HospitalManager {
 	@Autowired
 	HospitalDAO hospitalDAO;
 	
+	public List<Hospital> findBySpecialityGroup(String specialityGroup) {
+		return hospitalDAO.findBySpecialityGroup(specialityGroup);
+	}
+	
 	public List<Hospital> findBySpeciality(String speciality) {
 		return hospitalDAO.findBySpeciality(speciality); 
 	}
 	
-	public List<Hospital> findBySpecialityGroup(String specialityGroup) {
-		return hospitalDAO.findBySpecialityGroup(specialityGroup);
+	public List<Hospital> findByHospitalCenter(String hospitalCenter) {
+		return hospitalDAO.findByHospitalCenter(hospitalCenter);
+	}
+	
+	public List<Hospital> findByNumberOfBeds(Integer numberOfBeds) {
+		return hospitalDAO.findByNumberOfBeds(numberOfBeds);
+	}
+	
+	public List<Hospital> findByNumberOfPatients(Integer numberOfPatients) {
+		return hospitalDAO.findByNumberOfPatients(numberOfPatients);
+	}
+	
+	public List<Hospital> findByGeographicalPositionLat(Double geographicalPositionLat) {
+		return hospitalDAO.findByGeographicalPositionLat(geographicalPositionLat);
+	}
+	
+	public List<Hospital> findByGeographicalPositionLon(Double geographicalPositionLon) {
+		return hospitalDAO.findByGeographicalPositionLon(geographicalPositionLon);
 	}
 	
 	public List<Hospital> getAllHospitals(){

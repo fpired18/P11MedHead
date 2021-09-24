@@ -124,10 +124,10 @@ public class MainController {
 		return patient;
 	}*/
 
-	@GetMapping("/hospital/geographicalPositionLong/{geographicalPositionLong}")
-	public List<Hospital> getSingleGeographicalPositionLong(@PathVariable double geographicalPositionLong) {
+	@GetMapping("/hospital/geographicalPositionLon/{geographicalPositionLon}")
+	public List<Hospital> getSingleGeographicalPositionLong(@PathVariable double geographicalPositionLon) {
 		Formatter fmt = new Formatter();
-		List<Hospital> patient = hospitalDAO.findByGeographicalPositionLong(geographicalPositionLong);
+		List<Hospital> patient = hospitalDAO.findByGeographicalPositionLon(geographicalPositionLon);
 		double tripDistance;
 		try {
 			tripDistance = hospitalDAO.distanceGPS(5.5, 8.5, 4.5, 2.5);
@@ -154,8 +154,9 @@ public class MainController {
 		return patient;
 
 	}
+	
 
-	@PostMapping("/hospital/numberOfBedsAvailable")
+	@GetMapping("/hospital/numberOfBedsAvailable")
 	public List<Hospital> getAllHospitalWithDisponibility(@RequestBody HospitalWithDisponibilityRequest request) {
 		List<Hospital> bedsDispo = hospitalDAO.findAll();
 		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
@@ -167,7 +168,7 @@ public class MainController {
 		for (Hospital item : bedsDispo) {
 			if (item.numberOfBedsAvailable > 0) {
 				returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient, item.geographicalPositionLat,
-						item.geographicalPositionLong); // lonGPS, distanceGPS, travelGPS, shortTravel
+						item.geographicalPositionLon); // lonGPS, distanceGPS, travelGPS, shortTravel
 				System.out.println("\nVoici le returnDistance: " + returnDistance);
 				System.out.println("Voici le miniDistance: " + miniDistance);
 				System.out.println("\nVoici le request.latPatient + request.lonPatient: " + request.latPatient + " " + request.lonPatient);

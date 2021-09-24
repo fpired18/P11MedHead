@@ -19,7 +19,7 @@ public class HospitalDTO {
 	int numberOfBeds;
 	int numberOfPatients;
 	int numberOfBedsAvailable;
-	int geographicalPositionLong;
+	int geographicalPositionLon;
 	int geographicalPositionLat;
 
 }
