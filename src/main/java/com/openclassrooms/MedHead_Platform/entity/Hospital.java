@@ -33,16 +33,18 @@ public class Hospital {
 	@Column(name = "numberOfBedsAvailable", nullable = false)
 	public int numberOfBedsAvailable;
 
-	@Column(name = "geographicalPositionLon", nullable = false)
-	public double geographicalPositionLon;
 	@Column(name = "geographicalPositionLat", nullable = false)
 	public double geographicalPositionLat;
+	
+	@Column(name = "geographicalPositionLon", nullable = false)
+	public double geographicalPositionLon;
+	
 
 	public Hospital() {
 	}
 
 	public Hospital(String specialityGroup, String speciality, String hospitalCenter, int numberOfBeds,
-			int numberOfPatients, double geographicalPositionLon, double geographicalPositionLat) {
+			int numberOfPatients, double geographicalPositionLat, double geographicalPositionLon) {
 		super();
 		this.specialityGroup = specialityGroup;
 		this.speciality = speciality;
@@ -50,8 +52,8 @@ public class Hospital {
 		this.numberOfBeds = numberOfBeds;
 		this.numberOfPatients = numberOfPatients;
 		this.numberOfBedsAvailable = numberOfBeds - numberOfPatients;
-		this.geographicalPositionLon = geographicalPositionLon;
 		this.geographicalPositionLat = geographicalPositionLat;
+		this.geographicalPositionLon = geographicalPositionLon;	
 	}
 
 	public Long getId() {

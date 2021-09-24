@@ -118,11 +118,13 @@ public class MainController {
 
 	}
 
-	/*@GetMapping("/hospital/numberOfBedsAvailable/{numberOfBedsAvailable}")
-	public List<Hospital> getSingleAvalaibleBeds(@PathVariable int numberOfBedsAvailable) {
-		List<Hospital> patient = hospitalDAO.findByNumberOfBedsAvailable(numberOfBedsAvailable);
-		return patient;
-	}*/
+	/*
+	 * @GetMapping("/hospital/numberOfBedsAvailable/{numberOfBedsAvailable}") public
+	 * List<Hospital> getSingleAvalaibleBeds(@PathVariable int
+	 * numberOfBedsAvailable) { List<Hospital> patient =
+	 * hospitalDAO.findByNumberOfBedsAvailable(numberOfBedsAvailable); return
+	 * patient; }
+	 */
 
 	@GetMapping("/hospital/geographicalPositionLon/{geographicalPositionLon}")
 	public List<Hospital> getSingleGeographicalPositionLong(@PathVariable double geographicalPositionLon) {
@@ -137,7 +139,7 @@ public class MainController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		finally {
 			if (fmt != null) {
 				fmt.close();
@@ -154,7 +156,6 @@ public class MainController {
 		return patient;
 
 	}
-	
 
 	@GetMapping("/hospital/numberOfBedsAvailable")
 	public List<Hospital> getAllHospitalWithDisponibility(@RequestBody HospitalWithDisponibilityRequest request) {
@@ -167,11 +168,13 @@ public class MainController {
 		var fmt = new Formatter();
 		for (Hospital item : bedsDispo) {
 			if (item.numberOfBedsAvailable > 0) {
-				returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient, item.geographicalPositionLat,
-						item.geographicalPositionLon); // lonGPS, distanceGPS, travelGPS, shortTravel
+				returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient,
+						item.geographicalPositionLat, item.geographicalPositionLon); // lonGPS, distanceGPS, travelGPS,
+																						// shortTravel
 				System.out.println("\nVoici le returnDistance: " + returnDistance);
 				System.out.println("Voici le miniDistance: " + miniDistance);
-				System.out.println("\nVoici le request.latPatient + request.lonPatient: " + request.latPatient + " " + request.lonPatient);
+				System.out.println("\nVoici le request.latPatient + request.lonPatient: " + request.latPatient + " "
+						+ request.lonPatient);
 
 				if (returnDistance <= miniDistance) {
 					System.out.println("\nVoici le returnDistance dans le if: " + returnDistance);
@@ -184,13 +187,45 @@ public class MainController {
 				}
 				hospitalWithBeds.add(item);
 			}
-
 		}
 		System.out.println("\n***********************************");
 		System.out.println("L'hôpital le plus proche est celui de: " + nearestHospital.hospitalCenter);
 		System.out.println("La distance qui le sépare du patient est de: " + fmt.format("%.2f", miniDistance) + " Km");
 		System.out.println("***********************************\n");
 		return hospitalWithBeds;
+	}
+
+	@GetMapping("/hospital/speciality")
+	public List<Hospital> getAllHospitalNumberOfBesSpeciality(@RequestBody HospitalWithDisponibilityRequest request) {
+		List<Hospital> bedsDispo = hospitalDAO.findAll();
+		List<Hospital> hospitalWithSpeciality = new ArrayList<Hospital>();
+		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
+		Hospital nearestHospital = new Hospital();
+		double miniDistance = 5000000.0;
+		double returnDistance = 0.0;
+		for (Hospital item : bedsDispo) {
+			if (item.speciality.equals(request.specialityRequest)) {
+				System.out.println("\n***********************************");
+				System.out.println("La ville de: " + item.getHospitalCenter());
+				System.out.println("dispose de: " + item.numberOfBedsAvailable + " lits disponibles");
+				System.out.println("dans la spécialité: " + item.speciality);
+				hospitalWithSpeciality.add(item);			
+				if (item.numberOfBedsAvailable > 0) {
+					returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient,
+							item.geographicalPositionLat, item.geographicalPositionLon);
+					hospitalWithBeds.add(item);
+					if (returnDistance <= miniDistance) {	
+						System.out.println("\nVoici miniDistance avant affectation: " + miniDistance);
+						miniDistance = returnDistance;
+						System.out.println("et après: " + miniDistance);
+						nearestHospital = item;
+						System.out.println("\nVoici item: " + item.hospitalCenter);
+						System.out.println("Voici nearestHospital: " + nearestHospital.hospitalCenter);
+					}
+				}
+			}
+		}
+		return hospitalWithSpeciality;
 	}
 
 	@GetMapping("/hospital/geographicalPosition")
@@ -204,15 +239,15 @@ public class MainController {
 		}
 		return hospitalWithBeds;
 	}
-	
-	// Ce requestMapping renvoi le "viewName" dans Postman !!!!!!!!!!!!!!!!!!!!!!!
-		// Voici le GET de Postam localhost:9010/hospital/specialityGroup,
-		// /hospital/speciality
-		@RequestMapping(value = { "/hospital/specialityGroup, /hospital/speciality" }, method = RequestMethod.GET)
-		public String search(@RequestParam Map<String, String> allrequestParams) {
-			return "viewName";
 
-		}
+	// Ce requestMapping renvoi le "viewName" dans Postman !!!!!!!!!!!!!!!!!!!!!!!
+	// Voici le GET de Postam localhost:9010/hospital/specialityGroup,
+	// /hospital/speciality
+	@RequestMapping(value = { "/hospital/specialityGroup, /hospital/speciality" }, method = RequestMethod.GET)
+	public String search(@RequestParam Map<String, String> allrequestParams) {
+		return "viewName";
+
+	}
 
 	// A controler !!!!!!!!!!!!!!!!!!!!!!!
 
@@ -226,8 +261,6 @@ public class MainController {
 	 * 
 	 * }
 	 */
-
-	
 
 	/*
 	 * @RequestMapping(value=
