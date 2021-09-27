@@ -20,8 +20,11 @@ public class Hospital {
 
 	@Column(name = "specialityGroup", nullable = false)
 	public String specialityGroup;
+	
 	@Column(name = "speciality", nullable = false)
 	public String speciality;
+	//public Speciality speciality = new Speciality(false, false, false);
+	
 	@Column(name = "hospitalCenter", nullable = false)
 	public String hospitalCenter;
 
