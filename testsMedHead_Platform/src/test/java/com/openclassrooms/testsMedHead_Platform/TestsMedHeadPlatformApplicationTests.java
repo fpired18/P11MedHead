@@ -1,14 +1,12 @@
 package com.openclassrooms.testsMedHead_Platform;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Dictionary;
 
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,10 +21,11 @@ class TestsMedHeadPlatformApplicationTests {
 	}
 
 	@Test
-	void testListJson() {
+	void testListJsonTruePath() {
 		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(String.format("http://localhost:9010/hospital")))
-				.GET().build();
+		String truePath = "hospital";
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/" + truePath))).GET().build();
 
 		try {
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -37,18 +36,22 @@ class TestsMedHeadPlatformApplicationTests {
 				List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
 				});
 
+				int numberRecord = 0;
+				numberRecord = posts.size();
+				System.out.println("Voila ce que donne numberRecord: " + numberRecord);
+
 				posts.forEach(System.out::println);
 
-				System.out.println("\n------------------------------------");
-				System.out.println("            Tout est OK dans testListJson");
-				System.out.println("------------------------------------");
-				System.out.println("Response.statusCode = " + response.statusCode());
+				System.out.println("\n-------------------------------------------------");
+				System.out.println("       Tout est OK dans testListJsonTruePath");
+				System.out.println("-------------------------------------------------");
+				System.out.println("Response.statusCode dans testListJson = " + response.statusCode());
 				System.out.println("Voila ce que donne un jsonString: " + jsonString);
 
 			} else {
-				System.out.println("------------------------------------");
-				System.out.println("          Il y a un code 500 ");
-				System.out.println("------------------------------------");
+				System.out.println("--------------------------------------------------------");
+				System.out.println("     Il y a un code 404 dans testListJsonTruePath() ");
+				System.out.println("--------------------------------------------------------");
 				System.out.println(response);
 			}
 			if (response.body().contains("numberOfBeds")) {
@@ -58,183 +61,463 @@ class TestsMedHeadPlatformApplicationTests {
 			}
 		} catch (Exception e) {
 			System.out.println("\n***********************************\n");
-			System.out.println("    Il y a un problème! :" + e);
+			System.out.println("    Il y a un problème dans testListJsonTruePath! :" + e);
 			System.out.println("\n***********************************");
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	protected void testGetAllHospitalWithDisponibility() throws IOException, InterruptedException {
-
-		String requestBody = "{\"latPatient\": \"3.2\",\"lonPatient\": \"5.8\"}";
-		String postEndpoint = "http://localhost:9010/hospital/numberOfBedsAvailable";
-	
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(postEndpoint))
-				.header("Content-Type", "application.json")
-				.POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
-		
+	void testListJsonFalsePath() {
 		HttpClient client = HttpClient.newHttpClient();
-		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-		System.out.println("    Voici la réponse ! :" + response.body());
+		String falsePath = "hospitals";
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/" + falsePath))).GET().build();
 
-		
-		/*
-		 * String requestBody= "{\n" + "        \"latPatient\": \"3.2\",\n" +
-		 * "        \"lonPatient\": \"5.8\"\n" + "        \n" + "}";
-		 */
-		/*
-		 * HttpClient client = HttpClient.newHttpClient(); HttpRequest request =
-		 * HttpRequest.newBuilder() .uri(URI.create(String.format(
-		 * "http://localhost:9010/hospital/numberOfBedsAvailable")))
-		 * .POST(HttpRequest.BodyPublishers.ofString(requestBody)) .build();
-		 */
-		
-		
-		/*var values = new HashMap<String, String>() {
-			private static final long serialVersionUID = 1L;
-			{
-				put("latPatient", "3.2");
-				put("lonPatient", "5.8");
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			if (response.statusCode() == 200) {
+				String jsonString = response.body();
+				ObjectMapper mapper = new ObjectMapper();
 
+				List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+				});
+
+				int numberRecord = 0;
+				numberRecord = posts.size();
+				System.out.println("Voila ce que donne numberRecord: " + numberRecord);
+
+				posts.forEach(System.out::println);
+
+				System.out.println("\n---------------------------------------------------");
+				System.out.println("       Tout est OK dans testListJsonFalsePath");
+				System.out.println("---------------------------------------------------");
+				System.out.println("Response.statusCode dans testListJson = " + response.statusCode());
+				System.out.println("Voila ce que donne un jsonString: " + jsonString);
+
+			} else {
+				System.out.println("--------------------------------------------------------");
+				System.out.println("     Il y a un code 404 dans testListJsonFalsePath ");
+				System.out.println("--------------------------------------------------------");
+				System.out.println(response);
 			}
-		};
-		var objectMapper = new ObjectMapper();
-		String requestBody2 = objectMapper.writeValueAsString(values);
-		HttpClient client2 = HttpClient.newHttpClient();
-		HttpRequest request2 = HttpRequest.newBuilder()
-				.uri(URI.create(String.format("http://localhost:9010/hospital/numberOfBedsAvailable")))
-				.POST(HttpRequest.BodyPublishers.ofString(requestBody2)).build();
-		HttpResponse<String> response2 = client2.send(request2, HttpResponse.BodyHandlers.ofString());
-		System.out.println("    Voici la réponse2 ! :" + response2.body());
-
-		/*
-		 * HttpClient client = HttpClient.newHttpClient(); HttpRequest request =
-		 * HttpRequest.newBuilder() .uri(URI.create("https://httpbin.org/post"))
-		 * .POST(HttpRequest.BodyPublishers.ofString(requestBody)) .build();
-		 * 
-		 * HttpResponse<String> response = client.send(request,
-		 * HttpResponse.BodyHandlers.ofString());
-		 * 
-		 * System.out.println(response.body());
-		 *
-		 */
+			if (response.body().contains("numberOfBeds")) {
+				System.out.println("------------------------------------");
+				System.out.println("  Y a t'il un nombre de lits? " + response.body().contains("numberOfBeds"));
+				System.out.println("------------------------------------");
+			}
+		} catch (Exception e) {
+			System.out.println("\n*********************************************\n");
+			System.out.println("    Il y a un problème dans testListJsonFalsePath! :" + e);
+			System.out.println("\n*********************************************");
+			e.printStackTrace();
+		}
 	}
 
-	/*
-	 * @Test void testParseJson() { int jsonNumber = 0; while (jsonNumber < 5) {
-	 * jsonNumber += 1; HttpClient client = HttpClient.newHttpClient(); HttpRequest
-	 * request = HttpRequest.newBuilder()
-	 * .uri(URI.create(String.format("http://localhost:9010/hospital/" +
-	 * jsonNumber))).GET().build();
-	 * 
-	 * try { HttpResponse<String> response = client.send(request,
-	 * HttpResponse.BodyHandlers.ofString()); if (response.statusCode() == 200) {
-	 * String jsonString = response.body();
-	 * System.out.println("\n------------------------------------");
-	 * System.out.println("            Tout est OK ");
-	 * System.out.println("------------------------------------");
-	 * System.out.println("Response.statusCode = " + response.statusCode());
-	 * System.out.println("Voila le jsonString numéro " + jsonNumber + ": " +
-	 * jsonString);
-	 * 
-	 * Object obj = new JSONParser().parse(jsonString); JSONObject jo = (JSONObject)
-	 * obj;
-	 * 
-	 * String specialityGroup = (String) jo.get("specialityGroup");
-	 * System.out.println("\n****************************************");
-	 * System.out.println("     Voila le contenu du Json n°: " + jsonNumber);
-	 * System.out.println("****************************************");
-	 * System.out.println("   specialityGroup: " + specialityGroup);
-	 * 
-	 * String speciality = (String) jo.get("speciality");
-	 * System.out.println("   speciality: " + speciality);
-	 * 
-	 * String hospitalCenter = (String) jo.get("hospitalCenter");
-	 * 
-	 * System.out.println("   hospitalCenter: " + hospitalCenter);
-	 * 
-	 * int numberOfBeds = Integer.parseInt(jo.get("numberOfBeds").toString());
-	 * System.out.println("   numberOfBeds: " + numberOfBeds);
-	 * 
-	 * int numberOfPatients =
-	 * Integer.parseInt(jo.get("numberOfPatients").toString());
-	 * System.out.println("   numberOfPatients: " + numberOfPatients);
-	 * 
-	 * int numberOfBedsAvailable =
-	 * Integer.parseInt(jo.get("numberOfBedsAvailable").toString());
-	 * System.out.println("   numberOfBedsAvailable: " + numberOfBedsAvailable);
-	 * 
-	 * double geographicalPositionLong =
-	 * Double.parseDouble(jo.get("geographicalPositionLong").toString());
-	 * System.out.println("   geographicalPositionLong: " +
-	 * geographicalPositionLong);
-	 * 
-	 * double geographicalPositionLat =
-	 * Double.parseDouble(jo.get("geographicalPositionLat").toString());
-	 * System.out.println("   geographicalPositionLong: " +
-	 * geographicalPositionLat);
-	 * System.out.println("****************************************\n"); //int
-	 * longtravel = tripdistance.distanceGPS(8, 3, geographicalPositionLong,
-	 * geographicalPositionLat); //System.out.println(
-	 * "\n**************************************************************************"
-	 * ); //System.out.println("La distance est de : "+ longtravel);
-	 * 
-	 * 
-	 * } else { System.out.println("------------------------------------");
-	 * System.out.println("          Il y a un code 500 ");
-	 * System.out.println("------------------------------------");
-	 * System.out.println(response); } if (response.body().contains("numberOfBeds"))
-	 * { System.out.println("------------------------------------");
-	 * System.out.println("  Y a t'il un nombre de lits? " +
-	 * response.body().contains("numberOfBeds"));
-	 * System.out.println("------------------------------------"); }
-	 * 
-	 * } catch (Exception e) {
-	 * System.out.println("\n***********************************\n");
-	 * System.out.println("    Il y a un problème! :" + e);
-	 * System.out.println("\n***********************************");
-	 * e.printStackTrace(); } } }
-	 */
-	/*
-	 * @Test public void testCreate() { HospitalDTO hospitalDTO = new HospitalDTO();
-	 * 
-	 * hospitalDTO.specialityGroup = "Groupe specialité"; hospitalDTO.speciality =
-	 * "specialité"; hospitalDTO.hospitalCenter = "Orléans";
-	 * hospitalDTO.numberOfBeds = 10; hospitalDTO.numberOfPatients = 5;
-	 * hospitalDTO.geographicalPositionLong = 5; hospitalDTO.geographicalPositionLat
-	 * = 7; hospitalDTO.numberOfBedsAvailable = 5;
-	 * 
-	 * HttpClient client = HttpClient.newHttpClient(); HttpRequest request =
-	 * HttpRequest.newBuilder().uri(URI.create(String.format(
-	 * "http://localhost:9010/hospital"))) .POST((BodyPublisher)
-	 * hospitalDTO).build();
-	 * 
-	 * try { HttpResponse<String> response = client.send(request,
-	 * HttpResponse.BodyHandlers.ofString());
-	 * System.out.println("Response.statusCode = " + response.statusCode()); } catch
-	 * (Exception e) {
-	 * System.out.println("\n***********************************\n");
-	 * System.out.println("    Il y a un problème! :" + e);
-	 * System.out.println("\n***********************************");
-	 * e.printStackTrace(); }
-	 * 
-	 * }
-	 */
+	@Test
+	public void testIfSpecialityExistsTrue() {
+		String lookForSpeciality = "Cardiologie";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/hospital/speciality/" + lookForSpeciality))).GET()
+				.build();
 
-	/*
-	 * @Test void testNumberPatient() { HttpClient client =
-	 * HttpClient.newHttpClient(); HttpRequest request =
-	 * HttpRequest.newBuilder().uri(URI.create(String.format(
-	 * "http://localhost:9010/hospital/numberOfPatients"))) .GET().build();
-	 * 
-	 * try {
-	 * 
-	 * } catch (Exception e) {
-	 * System.out.println("\n***********************************\n");
-	 * System.out.println("    Il y a un problème! :" + e);
-	 * System.out.println("\n***********************************");
-	 * e.printStackTrace(); } }
-	 */
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println(
+						"\n******************************************************************************************************************\n");
+				System.out.println("    Pas d'hôpital qui assume la spécialité!: " + lookForSpeciality
+						+ " dans testIfSpecialityExistsTrue");
+				System.out.println(
+						"\n******************************************************************************************************************");
+			} else {
+				System.out.println(
+						"\n*****************************************************************************************************");
+				System.out.println("   Voici les établissements qui ont la spécialité: " + lookForSpeciality
+						+ " dans testIfSpecialityExistsTrue");
+				System.out.println(
+						"*****************************************************************************************************\n");
+				for (Post item : posts) {
+
+					System.out.println("   L'établissement de " + item.getHospitalCenter() + " Assure la spécialité: "
+							+ lookForSpeciality + " dans testIfSpecialityExistsTrue");
+				}
+				System.out.println(
+						"\n*****************************************************************************************************");
+				System.out.println("\n*************************************************************\n");
+				System.out.println("   Voila posts.size(): " + posts.size() + " dans testIfSpecialityExistsTrue");
+				System.out.println("\n*************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème dans \n" + "	dans testIfSpecialityExistsTrue!: " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testIfSpecialityExistsFalse() {
+		String lookForSpeciality = "Ostoépathie";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/hospital/speciality/" + lookForSpeciality))).GET()
+				.build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println(
+						"\n******************************************************************************************\n");
+				System.out.println("  Pas d'hôpital qui assume la spécialité! : " + lookForSpeciality
+						+ " dans testIfSpecialityExistsFalse");
+				System.out.println(
+						"\n******************************************************************************************");
+			} else {
+				System.out.println(
+						"\n******************************************************************************************************************\n");
+				System.out.println("   Voici les établissements qui ont la spécialité: " + lookForSpeciality
+						+ " dans testIfSpecialityExistsFalse");
+				System.out.println(
+						"\n******************************************************************************************************************");
+				posts.forEach(System.out::println);
+				System.out.println("\n*************************************************************\n");
+				System.out.println("   Voila posts.size(): " + posts.size() + " dans testIfSpecialityExistsFalse");
+				System.out.println("\n*************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème dans \n" + "	dans testIfSpecialityExistsFalse! : " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testIfSpecialityGroupExistsTrue() {
+		String lookForSpecialityGroup = "Anesthesie";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(
+						String.format("http://localhost:9010/hospital/specialityGroup/" + lookForSpecialityGroup)))
+				.GET().build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println(
+						"\n****************************************************************************************************\n");
+				System.out.println("   Pas d'hôpitaux qui ont le Groupe de spécialités! : " + lookForSpecialityGroup
+						+ " dans testIfSpecialityGroupExistsTrue");
+				System.out.println(
+						"\n****************************************************************************************************");
+			} else {
+				int i = 1;
+				System.out.println(
+						"\n*************************************************************************************************************************");
+				System.out.println("   Voici la liste des établissements qui ont le Groupe de spécialité: "
+						+ lookForSpecialityGroup + " dans testIfSpecialityGroupExistsTrue");
+				System.out.println(
+						"*************************************************************************************************************************\n");
+				for (Post item : posts) {
+
+					System.out.println("   L'établissement de n°: " + i + " " + item.getHospitalCenter()
+							+ " Assure le groupe de spécialités: " + lookForSpecialityGroup
+							+ " dans testIfSpecialityGroupExistsTrue");
+					i += 1;
+				}
+				System.out.println(
+						"\n*************************************************************************************************************************");
+				System.out.println(
+						"\n**********************************************************************************\n");
+				System.out.println("   Voici la valeur de posts.size() : " + posts.size()
+						+ " dans testIfSpecialityGroupExistsTrue");
+				System.out.println(
+						"\n**********************************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème dans \n" + "	dans testIfSpecialityGroupExistsTrue! : " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testIfSpecialityGroupExistsFalse() {
+		String lookForSpecialityGroup = "Vérérinaire";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(
+						String.format("http://localhost:9010/hospital/specialityGroup/" + lookForSpecialityGroup)))
+				.GET().build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println(
+						"\n*******************************************************************************************************************\n");
+				System.out.println("   Il n'y a pas d'hôpitaux qui ont le Groupe de spécialités! : "
+						+ lookForSpecialityGroup + " dans testIfSpecialityGroupExistsFalse");
+				System.out.println(
+						"\n*******************************************************************************************************************");
+			} else {
+				System.out.println(
+						"\n********************************************************************************************************************\n");
+				System.out.println("   Voici les établissements qui ont le Groupe de spécialités: "
+						+ lookForSpecialityGroup + " dans testIfSpecialityGroupExistsFalse");
+				System.out.println(
+						"\n********************************************************************************************************************");
+				posts.forEach(System.out::println);
+				System.out.println(
+						"\nn**********************************************************************************\n");
+				System.out
+						.println("   Voila posts.size() : " + posts.size() + " dans testIfSpecialityGroupExistsFalse");
+				System.out.println(
+						"\nn**********************************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème dans \n" + "	dans testIfSpecialityGroupExistsFalse! : " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testIfHopitalCenterExistsTrue() {
+		String lookForHopitalCenter = "Orléans";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/hospital/hospitalCenter/" + lookForHopitalCenter)))
+				.GET().build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println(
+						"\n**********************************************************************************************\n");
+				System.out.println("   Il n'y a pas d'hôpitaux dans la ville de : " + lookForHopitalCenter
+						+ " dans testIfHopitalCenterExistsTrue");
+				System.out.println(
+						"\n**********************************************************************************************");
+			} else {
+				System.out.println(
+						"\n**********************************************************************************************\n");
+				System.out.println("   La ville de : " + lookForHopitalCenter
+						+ " a un établissement hospitalier dans testIfHopitalCenterExistsTrue");
+				System.out.println(
+						"\n**********************************************************************************************");
+				System.out.println("\n*****************************************************************************\n");
+				System.out.println(
+						"   Voici la valeur de posts.size() : " + posts.size() + " dans testIfHopitalCenterExistsTrue");
+				System.out.println("\n*****************************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème dans \n" + "	dans testIfHopitalCenterExistsTrue! : " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testIfHopitalCenterExistsFalse() {
+		String lookForHopitalCenter = "Ailleurs";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/hospital/hospitalCenter/" + lookForHopitalCenter)))
+				.GET().build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println(
+						"\n**********************************************************************************************\n");
+				System.out.println("   Il n'y a pas d'hôpitaux dans la ville de : " + lookForHopitalCenter
+						+ " dans testIfHopitalCenterExistsFalse");
+				System.out.println(
+						"\n**********************************************************************************************");
+			} else {
+				System.out.println(
+						"\n**********************************************************************************************\n");
+				System.out.println("   La ville de : " + lookForHopitalCenter
+						+ " a un établissement hospitalier dans testIfHopitalCenterExistsFalse");
+				System.out.println(
+						"\n**********************************************************************************************");
+				System.out.println("\n*****************************************************************************\n");
+				System.out.println("   Voici la valeur de posts.size() : " + posts.size()
+						+ " dans testIfHopitalCenterExistsFalse");
+				System.out.println("\n*****************************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème dans \n" + "	dans testIfHopitalCenterExistsFalse! : " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testNumberOfBedsInThisHospital() {
+		String numberOfBedsInThisHospital = "Toulouse";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(
+						String.format("http://localhost:9010/hospital/hospitalCenter/" + numberOfBedsInThisHospital)))
+				.GET().build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println("\n**************************************************************************\n");
+				System.out.println("   Il n'y a pas d'hôpitaux dans la ville de : " + numberOfBedsInThisHospital
+						+ " dans testNumberOfBedsInThisHospital");
+				System.out.println("\n**************************************************************************");
+			} else {
+				int numberOfTurn = 0;
+				for (Post item : posts) {
+					if (item.getNumberOfBeds() != -1 && numberOfTurn == 0) {
+						System.out.println(
+								"\n******************************************************************************************");
+						System.out.println("\nLe nombre de lit dans la ville de " + numberOfBedsInThisHospital
+								+ " est de " + item.getNumberOfBeds() + " dans testNumberOfBedsInThisHospital");
+						System.out.println(
+								"\n******************************************************************************************\n");
+						numberOfTurn += 1;
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème	dans testNumberOfBedsInThisHospital : " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testWhatSpecialitiesHaveThisHospital() {
+		String whatSpecialitiesHaveThisHospital = "Orléans";
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String
+						.format("http://localhost:9010/hospital/hospitalCenter/" + whatSpecialitiesHaveThisHospital)))
+				.GET().build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println(
+						"\n******************************************************************************************************************\n");
+				System.out.println("    Pas d'hôpital dans la ville de !: " + whatSpecialitiesHaveThisHospital
+						+ " dans testWhatSpecialitiesHaveThisHospital");
+				System.out.println(
+						"\n******************************************************************************************************************");
+			} else {
+				int i = 1;
+				System.out.println(
+						"\n*************************************************************************************************************************");
+				System.out.println("   Voici la liste des spécialités de : " + whatSpecialitiesHaveThisHospital
+						+ " dans testWhatSpecialitiesHaveThisHospital");
+				System.out.println(
+						"*************************************************************************************************************************\n");
+				for (Post item : posts) {
+
+					System.out.println("  Spécialisation n°: " + i + " " + item.getSpeciality()
+							+ " dans testIfSpecialityGroupExistsTrue");
+					i += 1;
+				}
+				System.out.println(
+						"\n*************************************************************************************************************************");
+				System.out.println(
+						"   Voila posts.size(): " + posts.size() + " dans testWhatSpecialitiesHaveThisHospital");
+				System.out.println("\n*********************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème dans \n" + "	dans testWhatSpecialitiesHaveThisHospital!: " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testThisHospitalHasThisSpeciality() {
+		String numberOfBedsInThisHospital = "Orléans";
+		String speciality = "Cardiologie";
+		Boolean specialityExist = false;
+		HttpClient client = HttpClient.newHttpClient();
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(String.format("http://localhost:9010/hospital/hospitalCenter/" + numberOfBedsInThisHospital))).GET().build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if(posts.size()==0) {
+				System.out.println("\n**************************************************************************\n");
+				System.out.println("   Il n'y a pas d'hôpitaux dans la ville de : " + numberOfBedsInThisHospital + " dans testThisHospitalHasThisSpeciality");
+				System.out.println("\n**************************************************************************");
+			} else {
+				for (Post item : posts) {
+					if(item.getSpeciality().equals(speciality) && (item.getHospitalCenter().equals(numberOfBedsInThisHospital))) {
+						specialityExist = true;
+					}
+				}
+					//posts.forEach(System.out::println);
+				if(specialityExist) {
+					System.out.println("\n****************************************************************************************************");
+					System.out.println("\nLa ville de " + numberOfBedsInThisHospital + " assure la spéciality " + speciality + " dans testThisHospitalHasThisSpeciality");
+					System.out.println("\n****************************************************************************************************\n");
+
+				} else {
+						System.out.println("\n****************************************************************************************************");
+						System.out.println("\nLa ville de " + numberOfBedsInThisHospital + " n'assure pas la spéciality " + speciality + " dans testThisHospitalHasThisSpeciality");
+						System.out.println("\n****************************************************************************************************\n");
+					}
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème	dans testThisHospitalHasThisSpeciality : " + e);
+			System.out.println("\n**********************************************************************");
+			e.printStackTrace();
+		}
+	}
 
 }

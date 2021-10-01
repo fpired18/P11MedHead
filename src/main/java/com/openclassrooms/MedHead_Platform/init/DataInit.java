@@ -39,14 +39,15 @@ public class DataInit implements ApplicationRunner {
 			Hospital h7 = new Hospital("Groupe de médecine générale", "Cardiologie", "Strasbourg", 200, 199, 48.58, 7.74);
 			Hospital h8 = new Hospital("Groupe de médecine générale", "Cardiologie", "Nantes", 150, 150, 47.23, -1.58);
 			Hospital h9 = new Hospital("Groupe de médecine générale", "Pédiatrie", "Orléans", 200, 180, 47.90, 1.89);
-			Hospital h10 = new Hospital("Groupe pathologie", "Cardiologie pédiatrique", "Lille", 80, 40, 50.62, 3.08);
-			Hospital h11 = new Hospital("Groupe pathologie", "Virologie", "Macon", 250, 115, 46.31, 4.84);
-			Hospital h12 = new Hospital("Groupe de psychiatrie", "Psychiatrie légale", "Marseille", 30, 7, 43.30, 5.38);
-			Hospital h13 = new Hospital("Groupe de psychiatrie", "Psychiatrie générale", "Orange", 30, 7, 44.13, 4.8);
-			Hospital h14 = new Hospital("Groupe radiologie", "Médecine nucléaire", "Paris", 500, 450, 48.84, 2.41);
-			Hospital h15 = new Hospital("Groupe chirurgical", "Neurochirugie", "Lyon", 80, 80, 45.77, 4.85);
-			Hospital h16 = new Hospital("Groupe chirurgical", "Neurochirugie", "Saint Etienne", 80, 55, 45.41, 4.39);
-			Hospital h17 = new Hospital("Groupe chirurgical", "Chirurgie plastique", "Colmard", 250, 115, 48.08, 7.34);
+			Hospital h10 = new Hospital("Groupe de médecine générale", "Cardiologie", "Orléans", 200, 180, 47.90, 1.89);
+			Hospital h11 = new Hospital("Groupe pathologie", "Cardiologie pédiatrique", "Lille", 80, 40, 50.62, 3.08);
+			Hospital h12 = new Hospital("Groupe pathologie", "Virologie", "Macon", 250, 115, 46.31, 4.84);
+			Hospital h13 = new Hospital("Groupe de psychiatrie", "Psychiatrie légale", "Marseille", 30, 7, 43.30, 5.38);
+			Hospital h14 = new Hospital("Groupe de psychiatrie", "Psychiatrie générale", "Orange", 30, 7, 44.13, 4.8);
+			Hospital h15 = new Hospital("Groupe radiologie", "Médecine nucléaire", "Paris", 500, 450, 48.84, 2.41);
+			Hospital h16 = new Hospital("Groupe chirurgical", "Neurochirurgie", "Lyon", 80, 80, 45.77, 4.85);
+			Hospital h17 = new Hospital("Groupe chirurgical", "Neurochirurgie", "Saint Etienne", 80, 55, 45.41, 4.39);
+			Hospital h18 = new Hospital("Groupe chirurgical", "Chirurgie plastique", "Colmard", 250, 115, 48.08, 7.34);
 			
 			
 
@@ -67,6 +68,7 @@ public class DataInit implements ApplicationRunner {
 			hospitalDAO.save(h15);
 			hospitalDAO.save(h16);
 			hospitalDAO.save(h17);
+			hospitalDAO.save(h18);
 	
 		}
 	}

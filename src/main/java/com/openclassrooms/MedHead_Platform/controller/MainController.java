@@ -19,10 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.openclassrooms.MedHead_Platform.Classe.HospitalWithDisponibilityRequest;
 import com.openclassrooms.MedHead_Platform.dao.HospitalDAO;
 import com.openclassrooms.MedHead_Platform.entity.Hospital;
-import com.openclassrooms.MedHead_Platform.entity.Speciality;
-import com.openclassrooms.MedHead_Platform.Classe.*;
 
 @RestController
 public class MainController {
@@ -103,17 +102,14 @@ public class MainController {
 
 	}
 
-	// ----------------------------Nouveau
-	// GetMapping----------------------------------------
-	@GetMapping("/hospital/numberOfBeds/{hospitalCenter}")
-	public List<Hospital> getSingleNumberOfBedsToCity(@PathVariable String hospitalCenter) {
-		List<Hospital> patient = hospitalDAO.findByHospitalCenter(hospitalCenter);
+	@GetMapping("/hospital/numberOfPatients/{numberOfPatients}")
+	public List<Hospital> getSingleNumberOfPatients(@PathVariable int numberOfPatients) {
+		List<Hospital> patient = hospitalDAO.findByNumberOfPatients(numberOfPatients);
 		return patient;
 
 	}
-
-	@GetMapping("/hospital/numberOfPatients/{numberOfPatients}")
-	public List<Hospital> getSingleNumberOfPatients(@PathVariable int numberOfPatients) {
+	@GetMapping("/hospital/numberOfPatients")
+	public List<Hospital> getSingleNumberOfPatientsAllHospital(@PathVariable int numberOfPatients) {
 		List<Hospital> patient = hospitalDAO.findByNumberOfPatients(numberOfPatients);
 		return patient;
 
@@ -162,120 +158,98 @@ public class MainController {
 	public List<Hospital> getAllHospitalWithDisponibility(@RequestBody HospitalWithDisponibilityRequest request) {
 		List<Hospital> bedsDispo = hospitalDAO.findAll();
 		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
+		List<Hospital> hospitalWithBedsForSpeciality = new ArrayList<Hospital>();
+		// List<Hospital> hospitalWithBedsForSpecialityNearest = new
+		// ArrayList<Hospital>();
 		Hospital nearestHospital = new Hospital();
 		double miniDistance = 5000000.0;
 		double returnDistance = 0.0;
 		@SuppressWarnings("resource")
 		var fmt = new Formatter();
 		for (Hospital item : bedsDispo) {
-			if (item.numberOfBedsAvailable > 0) {
-				returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient,
-						item.geographicalPositionLat, item.geographicalPositionLon); // lonGPS, distanceGPS, travelGPS,
-																						// shortTravel
-				System.out.println("\nVoici le returnDistance: " + returnDistance);
-				System.out.println("Voici le miniDistance: " + miniDistance);
-				System.out.println("\nVoici le request.latPatient + request.lonPatient: " + request.latPatient + " "
-						+ request.lonPatient);
-
-				if (returnDistance <= miniDistance) {
-					System.out.println("\nVoici le returnDistance dans le if: " + returnDistance);
-					System.out.println("Voici le miniDistance dans le if avant l'affectation: " + miniDistance);
-					miniDistance = returnDistance;
-					System.out.println("\nVoici le miniDistance dans le if après l'affectation: " + miniDistance);
-					nearestHospital = item;
-					System.out.println("\nVoici item: " + item.hospitalCenter);
-					System.out.println("Voici nearestHospital: " + nearestHospital.hospitalCenter);
-				}
+			if (item.numberOfBedsAvailable >= request.numberOfBedsAvailableRequest) {
 				hospitalWithBeds.add(item);
+				if (item.speciality.equals(request.specialityRequest) && request.specialityRequest != "") {
+					hospitalWithBedsForSpeciality.add(item);
+					if (request.latPatient != 0 && request.lonPatient != 0) {
+						returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient,
+								item.geographicalPositionLat, item.geographicalPositionLon); // lonGPS, distanceGPS,travelGPS,shortTravel																							 
+						System.out.println("\nVoici le returnDistance: " + returnDistance);
+						System.out.println("Voici le miniDistance: " + miniDistance);
+						System.out.println("\nVoici le request.latPatient + request.lonPatient: " + request.latPatient+ " " + request.lonPatient);
+						if (returnDistance <= miniDistance) {
+							System.out.println("\nVoici le returnDistance dans le if: " + returnDistance);
+							System.out.println("Voici le miniDistance dans le if avant l'affectation: " + miniDistance);
+							miniDistance = returnDistance;
+							System.out.println("\nVoici le miniDistance dans le if après l'affectation: " + miniDistance);
+							nearestHospital = item;
+							System.out.println("\nVoici item: " + item.hospitalCenter);
+							System.out.println("Voici nearestHospital: " + nearestHospital.hospitalCenter);
+						}
+					} else {
+						return hospitalWithBedsForSpeciality;
+					}
+				} else {
+					return hospitalWithBeds;
+				}
+				return hospitalWithBedsForSpeciality;
 			}
 		}
-		System.out.println("\n***********************************");
+		System.out.println("\n*********************************************************");
 		System.out.println("L'hôpital le plus proche est celui de: " + nearestHospital.hospitalCenter);
 		System.out.println("La distance qui le sépare du patient est de: " + fmt.format("%.2f", miniDistance) + " Km");
-		System.out.println("***********************************\n");
-		return hospitalWithBeds;
+		System.out.println("********************************************************\n");
+		return bedsDispo;
 	}
 
 	@GetMapping("/hospital/speciality")
-	public List<Hospital> getAllHospitalNumberOfBesSpeciality(@RequestBody HospitalWithDisponibilityRequest request) {
+	public List<Hospital> getAllHospitalNumberOfBedsSpeciality(@RequestBody HospitalWithDisponibilityRequest request) {
 		List<Hospital> bedsDispo = hospitalDAO.findAll();
 		List<Hospital> hospitalWithSpeciality = new ArrayList<Hospital>();
 		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
 		Hospital nearestHospital = new Hospital();
+		@SuppressWarnings("resource")
+		var fmt = new Formatter();
 		double miniDistance = 5000000.0;
 		double returnDistance = 0.0;
-		for (Hospital item : bedsDispo) {	
-			if (item.speciality.equals(request.specialityRequest)) {
+		for (Hospital item : bedsDispo) {
+			if (item.speciality.equals(request.specialityRequest) && request.specialityRequest != "") {
 				System.out.println("\n***********************************");
-				System.out.println("L'hôpital de: " + item.getHospitalCenter());
+				System.out.println("L'hôpital de: " + item.hospitalCenter);
 				if (item.numberOfBedsAvailable == 1) {
 					System.out.println("dispose d'un lit disponible");
+				}
+				if (item.numberOfBedsAvailable == 0) {
+					System.out.println("dispose d'aucun lit disponible");
 				} else {
 					System.out.println("dispose de: " + item.numberOfBedsAvailable + " lits disponibles");
 				}
-				System.out.println("dispose de: " + item.numberOfBedsAvailable + " lits disponibles");
 				System.out.println("dans la spécialité: " + item.speciality);
-				hospitalWithSpeciality.add(item);			
+				hospitalWithSpeciality.add(item);
 				if (item.numberOfBedsAvailable > 0) {
 					returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient,
 							item.geographicalPositionLat, item.geographicalPositionLon);
 					hospitalWithBeds.add(item);
-					if (returnDistance <= miniDistance) {	
+					if (returnDistance <= miniDistance) {
 						System.out.println("\nVoici miniDistance avant affectation: " + miniDistance);
 						miniDistance = returnDistance;
 						System.out.println("et après: " + miniDistance);
 						nearestHospital = item;
 						System.out.println("\nVoici item: " + item.hospitalCenter);
-						System.out.println("Voici nearestHospital: " + nearestHospital.hospitalCenter);
+						System.out.println("L'hôpital le plus proche est: " + nearestHospital.hospitalCenter);
 					}
 				}
+			} else {
+				return hospitalWithSpeciality;
 			}
 		}
+		System.out.println("\n*********************************************************");
+		System.out.println("L'hôpital le plus proche est celui de: " + nearestHospital.hospitalCenter);
+		System.out.println("La distance qui le sépare du patient est de: " + fmt.format("%.2f", miniDistance) + " Km");
+		System.out.println("******************************************************\n");
 		return hospitalWithSpeciality;
 	}
 
-	/*@GetMapping("/hospital/speciality")
-	public List<Hospital> getHospitalNearestWithAvalaibleBedsForSpeciality(@RequestBody HospitalWithDisponibilityRequest request) {
-		List<Hospital> bedsDispo = hospitalDAO.findAll();
-		List<Hospital> hospitalWithSpeciality = new ArrayList<Hospital>();
-		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
-		Hospital nearestHospital = new Hospital();
-		double miniDistance = 5000000.0;
-		double returnDistance = 0.0;
-		for (Hospital item : bedsDispo) {	
-			if (item.speciality.equals(request.specialityRequest)) {
-				System.out.println("\n***********************************");
-				System.out.println("L'hôpital de: " + item.getHospitalCenter());
-				if (item.numberOfBedsAvailable == 1) {
-					System.out.println("dispose d'un lit disponible");
-				} else {
-					System.out.println("dispose de: " + item.numberOfBedsAvailable + " lits disponibles");
-				}
-				System.out.println("dispose de: " + item.numberOfBedsAvailable + " lits disponibles");
-				System.out.println("dans la spécialité: " + item.speciality);
-				hospitalWithSpeciality.add(item);			
-				if (item.numberOfBedsAvailable > 0) {
-					returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient,
-							item.geographicalPositionLat, item.geographicalPositionLon);
-					hospitalWithBeds.add(item);
-					if (returnDistance <= miniDistance) {	
-						System.out.println("\nVoici miniDistance avant affectation: " + miniDistance);
-						miniDistance = returnDistance;
-						System.out.println("et après: " + miniDistance);
-						nearestHospital = item;
-						System.out.println("\nVoici item: " + item.hospitalCenter);
-						System.out.println("Voici nearestHospital: " + nearestHospital.hospitalCenter);
-					}
-				}
-			}
-		}
-		return hospitalWithSpeciality;
-	}*/
-	
-	
-	
-	
-	
 	@GetMapping("/hospital/geographicalPosition")
 	public List<Hospital> getAllNearestHospitals() {
 		List<Hospital> bedsDispo = hospitalDAO.findAll();
