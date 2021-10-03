@@ -159,8 +159,6 @@ public class MainController {
 		List<Hospital> bedsDispo = hospitalDAO.findAll();
 		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
 		List<Hospital> hospitalWithBedsForSpeciality = new ArrayList<Hospital>();
-		// List<Hospital> hospitalWithBedsForSpecialityNearest = new
-		// ArrayList<Hospital>();
 		Hospital nearestHospital = new Hospital();
 		double miniDistance = 5000000.0;
 		double returnDistance = 0.0;
@@ -173,10 +171,11 @@ public class MainController {
 					hospitalWithBedsForSpeciality.add(item);
 					if (request.latPatient != 0 && request.lonPatient != 0) {
 						returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient,
-								item.geographicalPositionLat, item.geographicalPositionLon); // lonGPS, distanceGPS,travelGPS,shortTravel																							 
+								item.geographicalPositionLat, item.geographicalPositionLon); // lonGPS, distanceGPS,travelGPS,shortTravel	
 						System.out.println("\nVoici le returnDistance: " + returnDistance);
 						System.out.println("Voici le miniDistance: " + miniDistance);
 						System.out.println("\nVoici le request.latPatient + request.lonPatient: " + request.latPatient+ " " + request.lonPatient);
+						item.distance = returnDistance;
 						if (returnDistance <= miniDistance) {
 							System.out.println("\nVoici le returnDistance dans le if: " + returnDistance);
 							System.out.println("Voici le miniDistance dans le if avant l'affectation: " + miniDistance);
