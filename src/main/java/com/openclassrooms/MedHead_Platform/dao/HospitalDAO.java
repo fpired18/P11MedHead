@@ -61,11 +61,11 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 		return (dist/10);
 	}
 
-	private double deg2rad(double deg) {
+	public default double deg2rad(double deg) {
 		return (deg * Math.PI) / 180.0;
 	}
 
-	private double rad2deg(double rad) {
+	public default double rad2deg(double rad) {
 		return (rad * 180.0 / Math.PI);
 	}
 	

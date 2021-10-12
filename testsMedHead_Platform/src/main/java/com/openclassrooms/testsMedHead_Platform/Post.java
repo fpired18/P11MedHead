@@ -10,6 +10,15 @@ public class Post {
 	private int numberOfBedsAvailable;
 	private double geographicalPositionLon;
 	private double geographicalPositionLat;
+	private int distance;
+
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
 
 	public int getId() {
 		return id;

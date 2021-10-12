@@ -5,7 +5,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Dictionary;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -70,7 +69,7 @@ class TestsMedHeadPlatformApplicationTests {
 	@Test
 	void testListJsonFalsePath() {
 		HttpClient client = HttpClient.newHttpClient();
-		String falsePath = "hospitals";
+		String falsePath = "hospital";
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create(String.format("http://localhost:9010/" + falsePath))).GET().build();
 
@@ -110,6 +109,56 @@ class TestsMedHeadPlatformApplicationTests {
 			System.out.println("\n*********************************************\n");
 			System.out.println("    Il y a un problème dans testListJsonFalsePath! :" + e);
 			System.out.println("\n*********************************************");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testWhichTheNearestHospitalWithThisSpeciality() {
+		HttpClient client = HttpClient.newHttpClient();
+		//String inputJson = "{\"specialityRequest\":\"Cardiologie\",\"numberOfBedsAvailableRequest\":1\",\"latPatient\":5.1\",\"lonPatient\":1.6\"}";
+		String postEndpoint = "http://localhost:9010/hospital/speciality";
+		
+		//var request1 = HttpRequest.newBuilder().uri(URI.create(postEndpoint))
+		//		 .POST(HttpRequest.BodyPublishers.ofString(inputJson)).build();
+		
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create(postEndpoint)).GET()
+				.build();
+
+		try {
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println("\nle retour de response2.body(): " + response.body());
+			ObjectMapper mapper = new ObjectMapper();
+			List<Post> posts = mapper.readValue(response.body(), new TypeReference<List<Post>>() {
+			});
+			if (posts.size() == 0) {
+				System.out.println(
+						"\n******************************************************************************************************************\n");
+				System.out.println("    Il n'y a pas d'hôpital assez proche ");
+				System.out.println(
+						"\n******************************************************************************************************************");
+			} else {
+				System.out.println(
+						"\n*****************************************************************************************************");
+				System.out.println("   Voici les établissements qui ont la spécialité : ");
+				System.out.println(
+						"*****************************************************************************************************\n");
+				/*for (Post item : posts) {
+
+					System.out.println("   L'établissement de " + item.getHospitalCenter() + " est à "
+							+ item.getDistance());
+				}*/
+				System.out.println(
+						"\n*****************************************************************************************************");
+				System.out.println("\n*************************************************************\n");
+				System.out.println("   Voila posts.size(): " + posts.size() + " dans testIfSpecialityExistsTrue");
+				System.out.println("\n*************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("\n**********************************************************************\n");
+			System.out.println("    Il y a un problème dans \n" + "	dans testIfSpecialityExistsTrue!: " + e);
+			System.out.println("\n**********************************************************************");
 			e.printStackTrace();
 		}
 	}

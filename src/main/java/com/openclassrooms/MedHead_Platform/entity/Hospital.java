@@ -6,10 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "hospital")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Hospital {
 
 	@Id
@@ -30,6 +33,7 @@ public class Hospital {
 
 	@Column(name = "numberOfBeds", nullable = false)
 	public int numberOfBeds;
+	
 	@Column(name = "numberOfPatients", nullable = false)
 	public int numberOfPatients;
 
@@ -42,14 +46,14 @@ public class Hospital {
 	@Column(name = "geographicalPositionLon", nullable = false)
 	public double geographicalPositionLon;
 	
-	@Column(name = "distance", nullable = false)
-	public double distance;
+	@Column(name = "distance", nullable = true)
+	public int distance;
 
 	public Hospital() {
 	}
 
 	public Hospital(String specialityGroup, String speciality, String hospitalCenter, int numberOfBeds,
-			int numberOfPatients, double geographicalPositionLat, double geographicalPositionLon, double distance) {
+			int numberOfPatients, double geographicalPositionLat, double geographicalPositionLon, int distance) {
 		super();
 		this.specialityGroup = specialityGroup;
 		this.speciality = speciality;
@@ -134,11 +138,11 @@ public class Hospital {
 		this.geographicalPositionLon = geographicalPositionLon;
 	}
 	
-	public double getDistance() {
+	public int getDistance() {
 		return distance;
 	}
 
-	public void setDistance(double distance) {
+	public void setDistance(int distance) {
 		this.distance = distance;
 	}
 
