@@ -62,6 +62,7 @@ class MedHeadPlatformApplicationTests {
 		assertThat(list).size().isGreaterThan(17);
 	}
 	
+	
 	@Test
 	@Order(4)
 	public void myDSingleHospitalTest() {
