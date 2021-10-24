@@ -52,7 +52,6 @@ class MedHeadPlatformApplicationTests {
 		hospital.geographicalPositionLon = 1.69;
 		hospitalDAO.save(hospital);
 		assertNotNull(hospitalDAO.findByHospitalCenter("Chateauroux").get(0));
-
 	}
 
 	@Test
@@ -84,5 +83,4 @@ class MedHeadPlatformApplicationTests {
 		hospitalDAO.deleteById(1L);
 		assertThat(hospitalDAO.existsById(1L)).isFalse();
 	}
-
 }
