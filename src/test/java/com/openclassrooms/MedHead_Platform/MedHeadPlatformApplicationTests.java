@@ -52,24 +52,23 @@ class MedHeadPlatformApplicationTests {
 		hospital.geographicalPositionLon = 1.69;
 		hospitalDAO.save(hospital);
 		assertNotNull(hospitalDAO.findByHospitalCenter("Chateauroux").get(0));
-		
+
 	}
-	
+
 	@Test
 	@Order(3)
 	public void myCReadTest() {
 		List<Hospital> list = hospitalDAO.findAll();
 		assertThat(list).size().isGreaterThan(17);
 	}
-	
-	
+
 	@Test
 	@Order(4)
 	public void myDSingleHospitalTest() {
 		Hospital hospital = hospitalDAO.findById(1L).get();
 		assertEquals("Bordeaux", hospital.hospitalCenter);
 	}
-	
+
 	@Test
 	@Order(5)
 	public void myEUpdateTest() {
@@ -78,14 +77,12 @@ class MedHeadPlatformApplicationTests {
 		hospitalDAO.save(hospital);
 		assertNotEquals(150, hospitalDAO.findById(1L).get().getNumberOfBeds());
 	}
-	
+
 	@Test
 	@Order(6)
 	public void myFDeleteTest() {
 		hospitalDAO.deleteById(1L);
 		assertThat(hospitalDAO.existsById(1L)).isFalse();
 	}
-	
-	
 
 }
