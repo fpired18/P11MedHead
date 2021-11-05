@@ -82,40 +82,23 @@ class MedHeadPlatformApplicationTests {
 		hospitalDAO.save(hospital);
 		assertNotNull(hospitalDAO.findByHospitalCenter("Chateauroux").get(0));
 	}
-	
-	
-	/*@Test
-	@Order(3)
-	public void saveHospital() throws JsonProcessingException, Exception {
-		System.out.println("Voici json " + json);
-		System.out.println("Voici hospital1 " + hospital1);
-		MvcResult result = mockMvc.perform(get("/hospital")
-				.contentType("/")
-				.content(MAPPER.writeValueAsString(hospital1)))
-				.andExpect(status().isOk())
-				.andReturn();
-		System.out.println("Voici result " + result);
-		Hospital response = MAPPER.readValue(result.getResponse().getContentAsString(), Hospital.class);
-		System.out.println("Voici reponse " + response);
-		assertEquals(hospital1, response);
-	}*/
 
 	@Test
-	@Order(4)
+	@Order(3)
 	public void myCReadTest() {
 		List<Hospital> list = hospitalDAO.findAll();
 		assertThat(list).size().isGreaterThan(17);
 	}
 
 	@Test
-	@Order(5)
+	@Order(4)
 	public void myDSingleHospitalTest() {
 		Hospital hospital = hospitalDAO.findById(1L).get();
 		assertEquals("Bordeaux", hospital.hospitalCenter);
 	}
 
 	@Test
-	@Order(6)
+	@Order(5)
 	public void myEUpdateTest() {
 		Hospital hospital = hospitalDAO.findById(1L).get();
 		hospital.numberOfBeds = 130;
@@ -124,7 +107,7 @@ class MedHeadPlatformApplicationTests {
 	}
 
 	@Test
-	@Order(7)
+	@Order(6)
 	public void myFDeleteTest() {
 		hospitalDAO.deleteById(1L);
 		assertThat(hospitalDAO.existsById(1L)).isFalse();

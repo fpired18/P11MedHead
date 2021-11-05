@@ -132,9 +132,7 @@ public class MainController {
 				fmt.close();
 			}
 		}
-
 		return patient;
-
 	}
 
 	@GetMapping("/hospital/geographicalPositionLat/{geographicalPositionLat}")
@@ -142,51 +140,6 @@ public class MainController {
 		List<Hospital> patient = hospitalDAO.findByGeographicalPositionLat(geographicalPositionLat);
 		return patient;
 
-	}
-
-	@GetMapping("/hospital/numberOfBedsAvailable")
-	public List<Hospital> getAllHospitalWithDisponibility(@RequestBody HospitalWithDisponibilityRequest request) {
-		List<Hospital> bedsDispo = hospitalDAO.findAll();
-		List<Hospital> hospitalWithBeds = new ArrayList<Hospital>();
-		List<Hospital> hospitalWithBedsForSpeciality = new ArrayList<Hospital>();
-		Hospital nearestHospital = new Hospital();
-		double miniDistance = 5000000.0;
-		double returnDistance = 0.0;
-		@SuppressWarnings("resource")
-		Formatter fmt = new Formatter();
-		for (Hospital item : bedsDispo) {
-			if (item.numberOfBedsAvailable >= request.numberOfBedsAvailableRequest) {
-				hospitalWithBeds.add(item);
-				if (item.speciality.equals(request.specialityRequest) && request.specialityRequest != "") {
-					hospitalWithBedsForSpeciality.add(item);
-					if (request.latPatient != 0 && request.lonPatient != 0) {
-						returnDistance = hospitalDAO.distanceGPS(request.latPatient, request.lonPatient,
-								item.geographicalPositionLat, item.geographicalPositionLon); // lonGPS,
-																								// distanceGPS,travelGPS,shortTravel
-						System.out.println("\nVoici le returnDistance: " + returnDistance);
-						System.out.println("Voici le miniDistance: " + miniDistance);
-						System.out.println("\nVoici le request.latPatient + request.lonPatient: " + request.latPatient
-								+ " " + request.lonPatient);
-						if (returnDistance <= miniDistance) {
-							System.out.println("\nVoici le returnDistance dans le if: " + returnDistance);
-							System.out.println("Voici le miniDistance dans le if avant l'affectation: " + miniDistance);
-							miniDistance = returnDistance;
-							System.out
-									.println("\nVoici le miniDistance dans le if après l'affectation: " + miniDistance);
-							nearestHospital = item;
-							System.out.println("\nVoici item: " + item.hospitalCenter);
-							System.out.println("Voici nearestHospital: " + nearestHospital.hospitalCenter);
-						}
-					}
-				}
-				return hospitalWithBedsForSpeciality;
-			}
-		}
-		System.out.println("\n*********************************************************");
-		System.out.println("L'hôpital le plus proche est celui de: " + nearestHospital.hospitalCenter);
-		System.out.println("La distance qui le sépare du patient est de: " + fmt.format("%.2f", miniDistance) + " Km");
-		System.out.println("********************************************************\n");
-		return bedsDispo;
 	}
 
 	@GetMapping("/hospital/speciality")
@@ -200,7 +153,6 @@ public class MainController {
 		double miniDistance = 5000000.0;
 		double returnDistance = 0.0;
 		for (Hospital item : bedsDispo) {
-
 			if (item.speciality.equals(request.specialityRequest) && request.specialityRequest != "") {
 				System.out.println("\n***********************************");
 				System.out.println("L'hôpital de: " + item.hospitalCenter);
