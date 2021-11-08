@@ -43,7 +43,6 @@ public class MainController {
 		StringBuilder sb = new StringBuilder();
 
 		all.forEach(p -> sb.append(p.getSpecialityGroup() + "<br/>"));
-
 		return sb.toString();
 	}
 
