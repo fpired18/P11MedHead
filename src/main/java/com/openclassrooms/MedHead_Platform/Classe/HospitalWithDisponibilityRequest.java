@@ -5,6 +5,6 @@ public class HospitalWithDisponibilityRequest {
 	public String specialityRequest;
 	public int numberOfBedsAvailableRequest;
 	public double latPatient;
-	public double lonPatient;
+	public double lonPatient ;
 
 }

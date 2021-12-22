@@ -1,36 +1,76 @@
 package com.openclassrooms.MedHead_Platform.dao;
+import com.openclassrooms.MedHead_Platform.entity.Hospital;
+import com.openclassrooms.MedHead_Platform.entity.Hospital3;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.openclassrooms.MedHead_Platform.entity.Hospital;
+
 
 @Repository
 public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 
-	public List<Hospital> findBySpecialityGroup(String name);
 
-	public List<Hospital> findBySpeciality(String name);
 
-	public List<Hospital> findByHospitalCenter(String name);
+	/*public List<Hospital3> findBySpeciality(String name);
 
-	public List<Hospital> findByNumberOfBeds(Integer number);
+	public List<Hospital3> findByHospitalCenter(String name);
 
-	public List<Hospital> findByNumberOfPatients(Integer number);
+	public List<Hospital3> findByNumberOfBeds(Integer number);
 
-	public List<Hospital> findByNumberOfBedsAvailable(Integer number);
+	public List<Hospital3> findByNumberOfPatients(Integer number);
+
+	public List<Hospital3> findByNumberOfBedsAvailable(Integer number);
 	
-	public List<Hospital> findByGeographicalPositionLat(Double number);
+	public List<Hospital3> findByGeographicalPositionLat(Double number);
 
-	public List<Hospital> findByGeographicalPositionLon(Double number);
+	public List<Hospital3> findByGeographicalPositionLon(Double number);*/
 
 	public List<Hospital> findAll();
 
 	// public List<Hospital> findByNumberOfBedsAvailableBetween(Integer number1,
 	// Integer number2);
-	public List<Hospital> findByNumberOfBedsAvailableGreaterThan(Integer number);
+	//public List<Hospital3> findByNumberOfBedsAvailableGreaterThan(Integer number);
+	
+	@Query(value = "select city from hospital h join hospitalspeciality hs on (h.id = hs.hospitalid) join specialities s on (s.id=hs.specialityid) where s.speciality=?1 ", nativeQuery = true)
+	 List<String> findByCityBySpecialities(String speciality);
+	
+	@Query(value = "select speciality from specialities s join hospitalspeciality hs on (s.id=hs.specialityid) join hospital h on (h.id = hs.hospitalid) where h.city=?1 ", nativeQuery = true)
+	 List<String> findBySpecialitiesByCity(String city);
+	
+	@Query(value = "select groups from specialities s join hospitalspeciality hs on (s.id=hs.specialityid) join hospital h on (h.id = hs.hospitalid) where h.city=?1 ", nativeQuery = true)
+	 List<String> findByGroupsByCity(String city);
+	
+	@Query(value = "select name from hospital where hospital.city=?1 ", nativeQuery = true)
+	List<String> findByNameByCity(String city);
+	
+	@Query(value = "select bedsa from hospital where hospital.city=?1 ", nativeQuery = true)
+	List<Integer> findByBedsaByCity(String city);
+	
+	@Query(value = "select beds from hospital where hospital.city=?1 ", nativeQuery = true)
+	List<Integer> findByBedsByCity(String city);
+	
+	@Query(value = "select lon from hospital where hospital.city=?1 ", nativeQuery = true)
+	List<Double> findByLonByCity(String city);
+	
+	@Query(value = "select lat from hospital where hospital.city=?1 ", nativeQuery = true)
+	List<Double> findByLatByCity(String city);
+	
+	//***************************
+	
+	
+	@Query(value = "select * from hospital where hospital.id=?1 ", nativeQuery = true)
+	List<Hospital> findByHospitalById(Long id);
+	
+	/*@Query(value = "select * from hospital where hospital.bedsa >= 1 ", nativeQuery = true)
+	List<Hospital3> findByCityAndBedsaByCity();*/
+	
+	
+	//*************************
+	
 	
 	// première méthode de calcul de distances entre deux points GPS_________________________________________________ 
 	public default double lonGPS (double latPatient, double lonPatient, double latHospital, double lonHospital) {

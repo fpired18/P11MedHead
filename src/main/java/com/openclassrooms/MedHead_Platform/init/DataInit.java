@@ -9,8 +9,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import com.openclassrooms.MedHead_Platform.dao.HospitalDAO;
-import com.openclassrooms.MedHead_Platform.entity.Hospital;
-//import com.openclassrooms.MedHead_Platform.entity.Speciality;
 
 @Component
 public class DataInit implements ApplicationRunner {
@@ -34,12 +32,13 @@ public class DataInit implements ApplicationRunner {
 			Hospital h2 = new Hospital("Anesthesie", "Soins intensifs", "Mulhouse", 150, 75, 47.74, 7.33);
 			Hospital h3 = new Hospital("Groupe dentaire", "Orthodontie", "Brest", 10, 5, 48.39, -4.48);
 			Hospital h4 = new Hospital("Groupe dentaire", "Orthodontie", "Cherbourg", 10, 10, 49.63, -1.62);
-			Hospital h5 = new Hospital("Médecine d'urgence", "Médecine d'urgence", "Montpellier", 250, 115, 43.63, 3.86);
+			Hospital h5 = new Hospital("Médecine d'urgence", "Médecine d'urgence", "Montpellier", 250, 115, 43.63, 3.86);		
 			Hospital h6 = new Hospital("Groupe de médecine générale", "Allergie", "Toulouse", 70, 10, 43.61, 1.39);	
 			Hospital h7 = new Hospital("Groupe de médecine générale", "Cardiologie", "Strasbourg", 200, 199, 48.58, 7.74);
 			Hospital h8 = new Hospital("Groupe de médecine générale", "Cardiologie", "Nantes", 150, 150, 47.23, -1.58);
-			Hospital h9 = new Hospital("Groupe de médecine générale", "Pédiatrie", "Orléans", 200, 180, 47.90, 1.89);
+			Hospital h9 = new Hospital("Groupe de médecine générale", "Pédiatrie", "Orléans", 200, 180, 47.90, 1.89);		
 			Hospital h10 = new Hospital("Groupe de médecine générale", "Cardiologie", "Orléans", 200, 180, 47.90, 1.89);
+			
 			Hospital h11 = new Hospital("Groupe pathologie", "Cardiologie pédiatrique", "Lille", 80, 40, 50.62, 3.08);
 			Hospital h12 = new Hospital("Groupe pathologie", "Virologie", "Macon", 250, 115, 46.31, 4.84);
 			Hospital h13 = new Hospital("Groupe de psychiatrie", "Psychiatrie légale", "Marseille", 30, 7, 43.30, 5.38);
@@ -47,7 +46,7 @@ public class DataInit implements ApplicationRunner {
 			Hospital h15 = new Hospital("Groupe radiologie", "Médecine nucléaire", "Paris", 500, 450, 48.84, 2.41);
 			Hospital h16 = new Hospital("Groupe chirurgical", "Neurochirurgie", "Lyon", 80, 80, 45.77, 4.85);
 			Hospital h17 = new Hospital("Groupe chirurgical", "Neurochirurgie", "Saint Etienne", 80, 55, 45.41, 4.39);
-			Hospital h18 = new Hospital("Groupe chirurgical", "Chirurgie plastique", "Colmard", 250, 115, 48.08, 7.34);*/
+			Hospital h18 = new Hospital("Groupe chirurgical", "Chirurgie plastique", "Colmard", 250, 115, 48.08, 7.34);
 			
 			
 			Hospital h1 = new Hospital("Anesthesie", "Anesthesie", "Bordeaux", 150, 75, 44.83, -0.60, 0);
@@ -90,7 +89,7 @@ public class DataInit implements ApplicationRunner {
 			hospitalDAO.save(h15);
 			hospitalDAO.save(h16);
 			hospitalDAO.save(h17);
-			hospitalDAO.save(h18);
+			hospitalDAO.save(h18);*/
 	
 		}
 	}

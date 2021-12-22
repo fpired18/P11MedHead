@@ -1,0 +1,58 @@
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (1, 'Hôpital Saint-André','Bordeaux',150,75,44.83,-0.60);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (2, 'Centre Hospitalier','Mulhouse',150,75,47.74,7.33);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (3, 'Hôpital de la Cavale Blanche','Brest',10,5,48.39,-4.48);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (4, 'Centre hopitalier public du Cotentin','Cherbourg',10,0,49.63,-1.62);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (5, 'Hôpital Arnaud de Villeneuve','Montpellier',250,115,43.63,3.86);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (6, 'CHU','Toulouse',70,10,43.61,1.39);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (7, 'Hôpital de Hautepierre','Strasbourg',200,1,48.58,7.74);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (8, 'CHU','Nantes',150,0,47.23,-1.58);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (9, 'De la Source','Orléans',200,20,47.90,1.89);
+INSERT INTO hospital (id,name,city,beds,bedsa,lat,lon) VALUES (10, 'CHU','Lille',80,40,50.62,3.08);
+
+INSERT INTO specialities (id,groups,speciality) VALUES (1,'ANESTHESIE','ANESTHESIE');
+INSERT INTO specialities (id,groups,speciality) VALUES (2,'ANESTHESIE','SOINS INTENSIFS');
+INSERT INTO specialities (id,groups,speciality) VALUES (3,'DENTAIRE','ORTHODONTIE');
+INSERT INTO specialities (id,groups,speciality) VALUES (4,'DENTAIRE','PAROD0NTIE');
+INSERT INTO specialities (id,groups,speciality) VALUES (5,'MEDECINE GENERALE','CARDIOLOGIE');
+INSERT INTO specialities (id,groups,speciality) VALUES (6,'MEDECINE GENERALE','DERMATHOLOGIE');
+INSERT INTO specialities (id,groups,speciality) VALUES (7,'PATHOLOGIE','CARDIOLOGY PEDIATRIQUE');
+INSERT INTO specialities (id,groups,speciality) VALUES (8,'PATHOLOGIE','PEDIATRIE');
+INSERT INTO specialities (id,groups,speciality) VALUES (9,'PATHOLOGIE','VIROLOGIE');
+INSERT INTO specialities (id,groups,speciality) VALUES (10,'PSYCHIATRIE','PSYCHIATRIE LEGALE');
+INSERT INTO specialities (id,groups,speciality) VALUES (11,'PSYCHIATRIE','PSYCHIATRIE GENERALE');
+INSERT INTO specialities (id,groups,speciality) VALUES (12,'RADIOLOGIE','MEDECINE NUCLEAIRE');
+INSERT INTO specialities (id,groups,speciality) VALUES (13,'CHIRURGICAL','NEUROCHIRURGIE');
+INSERT INTO specialities (id,groups,speciality) VALUES (14,'CHIRURGICAL','CHIRURGIE PLASTIQUE');
+
+
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (1,1,1);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (2,1,6);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (3,1,5);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (4,2,3);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (5,2,8);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (6,2,11);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (7,3,5);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (8,3,10);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (9,3,9);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (10,4,7);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (11,4,4);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (12,4,5);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (13,5,2);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (14,5,9);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (15,5,13);
+
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (16,6,1);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (17,6,6);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (18,6,11);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (19,7,5);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (20,7,8);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (21,7,11);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (22,8,5);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (23,8,10);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (24,8,14);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (25,9,7);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (26,9,12);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (27,9,14);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (28,10,2);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (29,10,9);
+INSERT INTO hospitalspeciality (id,hospitalid,specialityid) VALUES (30,10,13);

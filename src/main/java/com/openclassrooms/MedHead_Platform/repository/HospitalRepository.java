@@ -1,11 +1,11 @@
 package com.openclassrooms.MedHead_Platform.repository;
 
-import com.openclassrooms.MedHead_Platform.entity.Hospital;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import com.openclassrooms.MedHead_Platform.entity.Hospital;
+
 @Repository
-public interface HospitalRepository extends JpaRepository<Hospital, Long>{
-	// Tu es nulle 
+public interface HospitalRepository extends CrudRepository<Hospital, Long>{
+	
 }
