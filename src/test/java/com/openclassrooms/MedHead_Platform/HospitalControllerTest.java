@@ -93,22 +93,53 @@ public class HospitalControllerTest {
 		ResultActions result = mockMvc.perform(get("/hospital"))
 		.andDo(print())
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$[0].name", is("Hôpital Saint-André")));
+		.andExpect(jsonPath("$[5].name", is("Hôpital de Hautepierre")));
 		
 		System.out.println("**************************************************************** "+ result.toString());
 		System.out.println("Voici Result "+ result.toString());
 		
 	}
-	/*
+	
+	@Test
+	public void testGetHospital1() throws Exception {
+		mockMvc.perform(get("/hospital"))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$[1].city", is("Brest")));	
+	}
+	
 	@Test
 	public void testGetHospital2() throws Exception {
+		mockMvc.perform(get("/hospital"))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$[0].bedsa", is(75)));
+	}
+	
+	@Test
+	public void testGetHospital3() throws Exception {
+		mockMvc.perform(get("/hospital"))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$[8].beds", is(80)));	
+	}
+	
+	@Test
+	public void testGetHospital4() throws Exception {
+		mockMvc.perform(get("/hospital"))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$[7].lat", is(47.9)));
+	}
+
+	@Test
+	public void testGetHospital5() throws Exception {
 		ResultActions result = mockMvc.perform(get("/hospital"))
 		.andDo(print())
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$[1].specialityGroup", is("Groupe dentaire")));
-		
+		.andExpect(jsonPath("$[2].lon", is(-1.62)));
+		System.out.println("******************************************************************** ");
 		System.out.println("Result "+ result.toString());
 		
-	}*/
-
+	}
 }

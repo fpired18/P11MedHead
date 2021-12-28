@@ -1,39 +1,23 @@
 package com.openclassrooms.MedHead_Platform.dao;
-import com.openclassrooms.MedHead_Platform.entity.Hospital;
-import com.openclassrooms.MedHead_Platform.entity.Hospital3;
-
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-
+import com.openclassrooms.MedHead_Platform.entity.Hospital;
 
 @Repository
 public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 
 
-
-	/*public List<Hospital3> findBySpeciality(String name);
-
-	public List<Hospital3> findByHospitalCenter(String name);
-
-	public List<Hospital3> findByNumberOfBeds(Integer number);
-
-	public List<Hospital3> findByNumberOfPatients(Integer number);
-
-	public List<Hospital3> findByNumberOfBedsAvailable(Integer number);
-	
-	public List<Hospital3> findByGeographicalPositionLat(Double number);
-
-	public List<Hospital3> findByGeographicalPositionLon(Double number);*/
-
 	public List<Hospital> findAll();
-
-	// public List<Hospital> findByNumberOfBedsAvailableBetween(Integer number1,
-	// Integer number2);
-	//public List<Hospital3> findByNumberOfBedsAvailableGreaterThan(Integer number);
+	
+	
+	@Query(value = "select h.* from hospital h join hospitalspeciality hs on (h.id = hs.hospitalid) join specialities s on (s.id=hs.specialityid) where s.speciality=?1 ", nativeQuery = true)
+	public List<Hospital> findByBySpeciality(String speciality);
+	
+	
 	
 	@Query(value = "select city from hospital h join hospitalspeciality hs on (h.id = hs.hospitalid) join specialities s on (s.id=hs.specialityid) where s.speciality=?1 ", nativeQuery = true)
 	 List<String> findByCityBySpecialities(String speciality);
@@ -59,20 +43,12 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 	@Query(value = "select lat from hospital where hospital.city=?1 ", nativeQuery = true)
 	List<Double> findByLatByCity(String city);
 	
-	//***************************
-	
 	
 	@Query(value = "select * from hospital where hospital.id=?1 ", nativeQuery = true)
 	List<Hospital> findByHospitalById(Long id);
 	
-	/*@Query(value = "select * from hospital where hospital.bedsa >= 1 ", nativeQuery = true)
-	List<Hospital3> findByCityAndBedsaByCity();*/
 	
-	
-	//*************************
-	
-	
-	// première méthode de calcul de distances entre deux points GPS_________________________________________________ 
+	// première méthode de calcul de distances entre deux points GPS_____________________________________________ 
 	public default double lonGPS (double latPatient, double lonPatient, double latHospital, double lonHospital) {
 		double pk = (180/Math.PI);
 		
@@ -80,17 +56,15 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 		double lonP = lonPatient / pk;
 		double latH = latHospital / pk;
 		double lonH = lonHospital / pk;
-		
 		double dist1 = Math.cos(latP) * Math.cos(lonP) * Math.cos(latH) * Math.cos(lonH);
 		double dist2 = Math.cos(latP) * Math.sin(lonP) * Math.cos(latH) * Math.sin(lonH);
-		double dist3 = Math.sin(latP) * Math.sin(latH);
-		
+		double dist3 = Math.sin(latP) * Math.sin(latH);	
 		double distTotal = Math.cos(dist1 + dist2 + dist3);
 		
 		return 6366000 * distTotal;
 	}
 	
-	// deuxième méthode de calcul de distances entre deux points GPS_____________________________________________________
+	// deuxième méthode de calcul de distances entre deux points GPS_________________________________________________
 	public default double distanceGPS(double latPatient, double lonPatient, double latHospital, double lonHospital) {
 		double theta = lonPatient - lonHospital;
 		double dist = Math.sin(deg2rad(latPatient)) * Math.sin(deg2rad(latHospital))
@@ -109,11 +83,10 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 		return (rad * 180.0 / Math.PI);
 	}
 	
-	// troisième méthode de calcul de distances entre deux points GPS ___________________________________________________
+	// troisième méthode de calcul de distances entre deux points GPS _____________________________________________
 	public default double travelGPS(double latPatient, double lonPatient, double latHospital, double lonHospital) {
 		double d2r = (180 / Math.PI);
 		double distance = 0;
-
 		try{
 		    double dlong = (lonHospital - lonPatient) * d2r;
 		    double dlat = (latHospital - latPatient) * d2r;
@@ -132,7 +105,8 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 		}
 		return distance;
 	}
-	// quatrième méthode de calcul de distances entre deux points GPS ___________________________________________________
+	
+	// quatrième méthode de calcul de distances entre deux points GPS ________________________________________________
 	public default double shortTravel (double latPatient, double lonPatient, double latHospital, double lonHospital) {
 		int rayon = 637800;
 		double latP = deg2rad(latPatient);
@@ -142,7 +116,8 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 		
 		double d = rayon * (Math.PI/2 - Math.asin(Math.sin(latH * Math.sin(latP) + Math.cos(lonH-lonP) * Math.cos(latH) * Math.cos(latP))));
 		return d;
-		
 	}
+
+	
 
 }

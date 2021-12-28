@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 @Table(name = "hospital")
@@ -27,6 +30,20 @@ public class Hospital {
 	public double lat;
 
 	public double lon;
+	
+	@JsonInclude()
+	@Transient
+	public double distance;
+
+
+	public double getDistance() {
+		return distance;
+	}
+
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
 
 
 	public Hospital() {

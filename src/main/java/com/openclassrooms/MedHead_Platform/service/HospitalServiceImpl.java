@@ -8,66 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.openclassrooms.MedHead_Platform.dao.HospitalDAO;
 import com.openclassrooms.MedHead_Platform.entity.Hospital;
-import com.openclassrooms.MedHead_Platform.entity.Hospital3;
+
 @Service
 public class HospitalServiceImpl implements HospitalService {
 	@Autowired
 	HospitalDAO hospitalDAO;
 
-	/*@Override
-	public List<Hospital3> findBySpecialityGroup(String name) {
-		return hospitalDAO.findBySpecialityGroup(name);
-	}
-
-	@Override
-	public List<Hospital3> findBySpeciality(String name) {
-		return hospitalDAO.findBySpeciality(name);
-	}
-
-	@Override
-	public List<Hospital3> findByHospitalCenter(String name) {
-		return hospitalDAO.findByHospitalCenter(name);
-	}
-
-	@Override
-	public List<Hospital3> findByNumberOfBeds(Integer number) {
-		return hospitalDAO.findByNumberOfBeds(number);
-	}
-
-	@Override
-	public List<Hospital3> findByNumberOfPatients(Integer number) {
-		return hospitalDAO.findByNumberOfPatients(number);
-	}
-
-	@Override
-	public List<Hospital3> findByNumberOfBedsAvailable(Integer number) {
-		return hospitalDAO.findByNumberOfBedsAvailable(number);
-	}
-
-	@Override
-	public List<Hospital3> findByGeographicalPositionLat(Double number) {
-		return hospitalDAO.findByGeographicalPositionLat(number);
-	}
-
-	@Override
-	public List<Hospital3> findByGeographicalPositionLon(Double number) {
-		return hospitalDAO.findByGeographicalPositionLon(number);
-	}*/
 
 	@Override
 	public List<Hospital> findAll() {
 		return hospitalDAO.findAll();
 	}
-
-	/*@Override
-	public List<Hospital3> findByNumberOfBedsAvailableGreaterThan(Integer number) {
-		return hospitalDAO.findByNumberOfBedsAvailableGreaterThan(number);
-	}
-	
-	@Override
-	public Hospital3 save(Hospital3 hospital) {
-		return hospitalDAO.save(hospital);
-	}*/
 
 	@Override
 	public Optional<Hospital> findById(Long id) {
@@ -121,13 +72,21 @@ public class HospitalServiceImpl implements HospitalService {
 		return hospitalDAO.findByHospitalById(id);
 	}
 	
+
+	@Override
+	public Hospital save(Hospital hospital) {
+		return hospitalDAO.save(hospital);
+	}
+
+	@Override
+	public List<Hospital> findByBySpeciality(String speciality) {
+		
+		return hospitalDAO.findByBySpeciality(speciality);
+	}
+	
+	
 	//***************Nouveau
 
-	/*@Override
-	public List<Hospital3> findByCityAndBedsaByCity() {
-		// TODO Auto-generated method stub
-		return hospitalDAO.findByCityAndBedsaByCity();
-	}*/
 
 	public double lonGPS (double latPatient, double lonPatient, double latHospital, double lonHospital) {
 		double pk = (180/Math.PI);
@@ -146,7 +105,7 @@ public class HospitalServiceImpl implements HospitalService {
 		return 6366000 * distTotal;
 	}
 	
-	// deuxième méthode de calcul de distances entre deux points GPS_____________________________________________________
+	// deuxième méthode de calcul de distances entre deux points GPS_________________________________________
 	public double distanceGPS(double latPatient, double lonPatient, double latHospital, double lonHospital) {
 		double theta = lonPatient - lonHospital;
 		double dist = Math.sin(deg2rad(latPatient)) * Math.sin(deg2rad(latHospital))
@@ -165,7 +124,7 @@ public class HospitalServiceImpl implements HospitalService {
 		return (rad * 180.0 / Math.PI);
 	}
 	
-	// troisième méthode de calcul de distances entre deux points GPS ___________________________________________________
+	// troisième méthode de calcul de distances entre deux points GPS _____________________________________
 	public double travelGPS(double latPatient, double lonPatient, double latHospital, double lonHospital) {
 		double d2r = (180 / Math.PI);
 		double distance = 0;
@@ -188,7 +147,7 @@ public class HospitalServiceImpl implements HospitalService {
 		}
 		return distance;
 	}
-	// quatrième méthode de calcul de distances entre deux points GPS ___________________________________________________
+	// quatrième méthode de calcul de distances entre deux points GPS ________________________________________
 	public double shortTravel (double latPatient, double lonPatient, double latHospital, double lonHospital) {
 		int rayon = 637800;
 		double latP = deg2rad(latPatient);
@@ -200,6 +159,7 @@ public class HospitalServiceImpl implements HospitalService {
 		return d;
 		
 	}
+
 
 
 }
