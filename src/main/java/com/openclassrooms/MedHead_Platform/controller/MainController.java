@@ -96,7 +96,7 @@ public class MainController {
 		return hospitalById;
 	}
 	
-	@GetMapping("/hospital3")
+	@GetMapping("/hospital")
 	public ResponseEntity<List<Hospital>> getAllHospitals() {
 		try {
 			List<Hospital> list = hospitalService.findAll();
