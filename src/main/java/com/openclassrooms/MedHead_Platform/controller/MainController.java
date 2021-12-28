@@ -139,10 +139,6 @@ public class MainController {
 
 	}
 	
-	
-	
-	
-	
 	@GetMapping("/hospital/speciality")
 	public List<Hospital> getAllHospitalNumberOfBedsSpeciality(@RequestBody HospitalWithDisponibilityRequest request) { 
 		List<Hospital> bedsDispo = hospitalService.findByBySpeciality(request.getSpecialityRequest());
@@ -154,25 +150,20 @@ public class MainController {
 		double miniDistance = 5000000.0;
 		double returnDistance = 0.0;
 		for (Hospital item : bedsDispo) {
-			/*if (item.speciality.equals(request.specialityRequest) && request.specialityRequest != "") {
-				System.out.println("\n***********************************");
-				System.out.println("L'hôpital de: " + item.city);
-				if (item.bedsa == 1) {
-					System.out.println("dispose d'un lit disponible");
+			 if (item.bedsa == 1) {
+					System.out.println(item.city + " dispose d'un lit disponible");
 				}
 				if (item.bedsa == 0) {
-					System.out.println("dispose d'aucun lit disponible");
+					System.out.println(item.city + " dispose d'aucun lit disponible");
 				}
 				if (item.bedsa > 1) {
 					System.out.println("dispose de: " + item.bedsa + " lits disponibles");
 				}
-				System.out.println("dans la spécialité: " + item.speciality);
 				if (item.bedsa > 0) {
 
-					returnDistance = hospitalService.distanceGPS(request.latPatient, request.lonPatient,
+					returnDistance = hospitalService.distanceGPS(request.getLatPatient(), request.getLonPatient(),
 							item.lat, item.lon);
-					item.distance = (int) returnDistance;
-					;
+					item.distance = returnDistance;
 					hospitalWithBeds.add(item);
 					if (returnDistance <= miniDistance) {
 						System.out.println("\nVoici miniDistance avant affectation: " + miniDistance);
@@ -183,7 +174,6 @@ public class MainController {
 						System.out.println("L'hôpital le plus proche est: " + nearestHospital.city);
 					}
 				}
-			}*/
 			
 		}
 		

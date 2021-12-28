@@ -1,0 +1,50 @@
+image: maven:latest
+
+stages:
+  - build
+  - test
+  - package
+
+cache:
+  paths:
+    - .m2/repository/
+    - echo "Write cache ..."
+    - echo "Cache complete."
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_CLI_OPTS: "--batch-mode"
+
+
+build:
+  stage: build
+  script:
+    - echo "Maven build started"
+    - mvn $MAVEN_CLI_OPTS compile
+    - echo "Compiling the code..."
+    - echo "Compile complete."
+  artifacts:
+    expire_in: 10 min
+    paths: 
+      - target/ 
+      - "*/target"
+
+test:
+  stage: test
+  script:
+    - mvn surefire-report:report
+  artifacts:
+    when: always
+    paths: 
+      - target/ 
+      - "*/target"
+
+package:
+  stage: package
+  script:
+    - echo "Maven package started"
+    - mvn -Dmaven.repo.local=.m2/repository -Dmaven.test.skip=true package
+  artifacts:
+    name: "app-snapshot"
+    paths:
+      - target/*.jar

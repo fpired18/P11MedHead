@@ -17,8 +17,6 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 	@Query(value = "select h.* from hospital h join hospitalspeciality hs on (h.id = hs.hospitalid) join specialities s on (s.id=hs.specialityid) where s.speciality=?1 ", nativeQuery = true)
 	public List<Hospital> findByBySpeciality(String speciality);
 	
-	
-	
 	@Query(value = "select city from hospital h join hospitalspeciality hs on (h.id = hs.hospitalid) join specialities s on (s.id=hs.specialityid) where s.speciality=?1 ", nativeQuery = true)
 	 List<String> findByCityBySpecialities(String speciality);
 	
@@ -117,7 +115,5 @@ public interface HospitalDAO extends CrudRepository<Hospital, Long> {
 		double d = rayon * (Math.PI/2 - Math.asin(Math.sin(latH * Math.sin(latP) + Math.cos(lonH-lonP) * Math.cos(latH) * Math.cos(latP))));
 		return d;
 	}
-
-	
 
 }
