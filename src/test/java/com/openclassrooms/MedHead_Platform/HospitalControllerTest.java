@@ -25,7 +25,7 @@ import com.openclassrooms.MedHead_Platform.service.HospitalService;
 @TestMethodOrder(OrderAnnotation.class)
 public class HospitalControllerTest {
 
-	@Autowired
+
 	Hospital hospital = new Hospital();
 
 	@Autowired
