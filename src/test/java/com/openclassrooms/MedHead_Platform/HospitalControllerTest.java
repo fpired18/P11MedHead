@@ -49,7 +49,7 @@ public class HospitalControllerTest {
 	}
 
 	@Test
-	// @Order(2)
+	@Order(2)
 	public void testGetDistanceDistanceGPS() throws Exception {
 		// When
 		double response = hospitalService.distanceGPS(latPatient, lonPatient, latHospital, lonHospital);
